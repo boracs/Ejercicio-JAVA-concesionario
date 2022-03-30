@@ -1,16 +1,23 @@
 package reto;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class ConnectionToDB {
 	
+	private Connection myConnection;
+	
+	@SuppressWarnings("finally")
 	public ResultSet myQuery(String myQuery) {
 		
 		ResultSet myResultSet = null;
 		
 		try {
-			Connection myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "root");
-			Statement myStatement = myConnection.createStatement();
+			//empty password for macOS, root for Windows
+			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "root");
+			Statement myStatement = this.myConnection.createStatement();
 			myResultSet = myStatement.executeQuery(myQuery);
 			
 		} catch (Exception e) {
@@ -23,6 +30,12 @@ public class ConnectionToDB {
 		
 	public void disconnect() {
 		
+		try {
+			this.myConnection.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
 	}
-
 }

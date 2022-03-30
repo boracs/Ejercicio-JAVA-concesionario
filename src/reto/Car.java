@@ -1,18 +1,14 @@
 package reto;
 
-import java.sql.*;
-import java.util.Date;
-
 public class Car extends Vehicle {
 
 	private int numDoors;
 	private int trunkCapacity;
 	
-	public Car(String brand, String model, int year, String registration, int numFrame, String colour, int numOfSeats, int price,
-			boolean painted, boolean sold, Date fechaVenta, int numDoors, int trunkCapacity) {
+	public Car(/*String brand, String model, int year,*/ String registration, String numFrame,
+			String colour, int numOfSeats, int price, int numDoors, int trunkCapacity) {
 		
-		super(brand, model, year, registration, numFrame, colour, numOfSeats, price,
-				painted, sold, fechaVenta);
+		super(/*brand, model, year,*/ registration, numFrame, colour, numOfSeats, price);
 		this.numDoors = numDoors;
 		this.trunkCapacity = trunkCapacity;
 	}

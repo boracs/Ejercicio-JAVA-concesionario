@@ -1,18 +1,14 @@
 package reto;
 
-import java.sql.*;
-import java.sql.Date;
-
 public class Truck extends Vehicle {
 
 	private int load;
 	private char merchandiseType;
 	
-	public Truck(String brand, String model, int year, String registration, int numFrame, String colour, int numOfSeats, int price,
-			boolean painted, boolean sold, Date sellDate, int load, char merchandiseType) {
+	public Truck(String brand, String model, int year, String registration, String numFrame,
+			String colour, int numOfSeats, int price, int load, char merchandiseType) {
 		
-		super(brand, model, year, registration, numFrame, colour, numOfSeats, price,
-				painted, sold, sellDate);
+		super(/*brand, model, year,*/ registration, numFrame, colour, numOfSeats, price);
 		this.load = load;
 		this.merchandiseType = merchandiseType;
 	}

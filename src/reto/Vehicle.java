@@ -1,16 +1,12 @@
 package reto;
 
-import java.sql.*;
 import java.util.Date;
 
-public abstract class Vehicle {
+public abstract class Vehicle /*extends Series*/{
 	
 	private int serieNum;
-	private String brand;
-	private String model;
-	private int year;
 	private String registration;
-	private int numFrame;
+	private String numFrame;
 	private String colour;
 	private int numOfSeats;
 	private int price;
@@ -18,13 +14,10 @@ public abstract class Vehicle {
 	private boolean sold;
 	private Date sellDate;
 	
-	public Vehicle(String brand, String model, int year, String registration, int numFrame, String colour, int numOfSeats, int price,
-			boolean painted, boolean sold, Date fechaVenta) {
+	public Vehicle(/*String brand, String model, int year,*/ String registration, String numFrame, String colour, int numOfSeats, int price) {
 		
-		this.serieNum = serieNum;
-		this.brand = brand;
-		this.model = model;
-		this.year = year;
+		/*super(brand, model, year);*/
+		this.serieNum = -1;
 		this.numFrame = numFrame;
 		this.colour = colour;
 		this.numOfSeats = numOfSeats; 
@@ -32,33 +25,23 @@ public abstract class Vehicle {
 		this.painted = false;
 		this.sold = false;
 		this.sellDate = null;
+		
+		//aquí probamos el insert into
 	}
 
 	
 	public int getSerieNum() {
 		return this.serieNum;
 	}
-
-	public String getBrand() {
-		return this.brand;
-	}
-
-	public String getModel() {
-		return this.model;
-	}
 	
-	public int getYear() {
-		return this.year;
-	}
-
 	public String getRegistration() {
 		return this.registration;
 	}
-
-	public int getNumFrame() {
+	
+	public String getNumFrame() {
 		return this.numFrame;
 	}
-
+	
 	public String getColour() {
 		return this.colour;
 	}
@@ -87,23 +70,11 @@ public abstract class Vehicle {
 		this.serieNum = serieNum;
 	}
 
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
-
 	public void setRegistration(String registration) {
 		this.registration = registration;
 	}
 
-	public void setNumFrame(int numFrame) {
+	public void setNumFrame(String numFrame) {
 		this.numFrame = numFrame;
 	}
 
