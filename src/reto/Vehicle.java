@@ -1,5 +1,6 @@
 package reto;
 
+import java.sql.*;
 import java.util.Date;
 
 public abstract class Vehicle {
@@ -10,14 +11,14 @@ public abstract class Vehicle {
 	private int year;
 	private String registration;
 	private int numFrame;
-	private String color;
+	private String colour;
 	private int numOfSeats;
 	private int price;
 	private boolean painted;
 	private boolean sold;
 	private Date sellDate;
 	
-	public Vehicle(String brand, String model, int year, String registration, int numFrame, String color, int numOfSeats, int price,
+	public Vehicle(String brand, String model, int year, String registration, int numFrame, String colour, int numOfSeats, int price,
 			boolean painted, boolean sold, Date fechaVenta) {
 		
 		this.serieNum = serieNum;
@@ -25,8 +26,8 @@ public abstract class Vehicle {
 		this.model = model;
 		this.year = year;
 		this.numFrame = numFrame;
-		this.color = color;
-		this.numOfSeats = numOfSeats;
+		this.colour = colour;
+		this.numOfSeats = numOfSeats; 
 		this.price = price;
 		this.painted = false;
 		this.sold = false;
@@ -58,8 +59,8 @@ public abstract class Vehicle {
 		return this.numFrame;
 	}
 
-	public String getColor() {
-		return this.color;
+	public String getColour() {
+		return this.colour;
 	}
 
 	public int getNumOfSeats() {
@@ -106,8 +107,8 @@ public abstract class Vehicle {
 		this.numFrame = numFrame;
 	}
 
-	public void setColor(String color) {
-		this.color = color;
+	public void setColour(String colour) {
+		this.colour = colour;
 	}
 
 	public void setNumOfSeats(int numOfSeats) {
@@ -132,8 +133,8 @@ public abstract class Vehicle {
 
 	
 	
-	public void paint(String color) {
-		this.color = color;
+	public void paint(String colour) {
+		this.colour = colour;
 		this.painted = true;
 	}
 	
