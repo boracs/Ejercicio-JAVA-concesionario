@@ -53,6 +53,9 @@ public class Concessionaire {
 			
 			System.out.println("\n\nCARS");
 			ResultSet myResultSetCar = myConnectionToDB.myQuery("SELECT * FROM vehicle, car WHERE vehicle.registration = car.registration");
+			if (!myResultSetCar.next()) {                            
+				System.out.println("\nNo cars to show!");
+			}
 			while(myResultSetCar.next()) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("\nRegistration:\t" + myResultSetCar.getString("registration"));
@@ -65,6 +68,9 @@ public class Concessionaire {
 			
 			System.out.println("\n\nTRUCKS");
 			ResultSet myResultSetTruck = myConnectionToDB.myQuery("SELECT * FROM vehicle, truck WHERE vehicle.registration = truck.registration");
+			if (!myResultSetTruck.next()) {                            
+				System.out.println("\nNo trucks to show!");
+			}
 			while(myResultSetTruck.next()) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("\nRegistration:\t" + myResultSetTruck.getString("registration"));

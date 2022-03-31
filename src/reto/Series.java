@@ -10,13 +10,12 @@ public class Series {
 	private int year;
 	
 	public Series(String brand, String model, int year) {
-		
 		this.brand = brand;
 		this.model = model;
 		this.year = year;
 		
-		
 		ConnectionToDB myConnectionToDB = null;
+		Boolean exists = true;
 		
 		try {
 			myConnectionToDB = new ConnectionToDB();
@@ -24,7 +23,7 @@ public class Series {
 			ResultSet myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM series WHERE brand = '" + brand + "' AND model = '" + model + "' AND year = '" + year + "'");
 			if (!myResultSet.next()) {                            
 				myConnectionToDB.myExeQuery("INSERT INTO series (brand, model, year) VALUES ('" + brand + "', '" + model + "', '" + year + "')");
-				myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM series WHERE brand = '" + brand + "' AND model = '" + model + "' AND year = '" + year + "'");
+				exists = false;
 			}
 			this.serieNum = myResultSet.getInt("serieNum");
 			
@@ -40,6 +39,28 @@ public class Series {
                 }
             }
 		}
+		
+		if(!exists) {
+			try {
+				myConnectionToDB = new ConnectionToDB();
+				
+				ResultSet myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM series WHERE brand = '" + brand + "' AND model = '" + model + "' AND year = '" + year + "'");
+				this.serieNum = myResultSet.getInt("serieNum");
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				if(myConnectionToDB != null){
+	                try{
+	                	myConnectionToDB.disconnect();
+	                } catch (Exception e){
+	                    e.printStackTrace();
+	                }
+	            }
+			}
+		}
+		
 	}
 	
 	
