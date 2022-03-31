@@ -15,8 +15,7 @@ public class ConnectionToDB {
 		ResultSet myResultSet = null;
 		
 		try {
-			//empty password for macOS, root for Windows
-			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "root");
+			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "");
 			Statement myStatement = this.myConnection.createStatement();
 			myResultSet = myStatement.executeQuery(myQuery);
 			
@@ -25,14 +24,15 @@ public class ConnectionToDB {
 			
 		} finally {
 			return myResultSet;
+			
 		}
 	}
+	
 	
 	public void myExeQuery(String myExeQuery) {
 				
 		try {
-			//empty password for macOS, root for Windows
-			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "root");
+			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "");
 			Statement myStatement = this.myConnection.createStatement();
 			myStatement.executeUpdate(myExeQuery);
 			
@@ -53,4 +53,6 @@ public class ConnectionToDB {
 			
 		}
 	}
+	
+	
 }

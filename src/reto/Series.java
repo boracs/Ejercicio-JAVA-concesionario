@@ -9,21 +9,23 @@ public class Series {
 	private String model;
 	private int year;
 	
+	
 	public Series(String brand, String model, int year) {
+		
 		this.brand = brand;
 		this.model = model;
 		this.year = year;
+
 		
 		ConnectionToDB myConnectionToDB = null;
-		Boolean exists = true;
-		
+
 		try {
 			myConnectionToDB = new ConnectionToDB();
-			
-			ResultSet myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM series WHERE brand = '" + brand + "' AND model = '" + model + "' AND year = '" + year + "'");
+			ResultSet myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM series WHERE LOWER(brand) = '" + brand.toLowerCase() + "' AND LOWER(model) = '" + model.toLowerCase() + "' AND year = " + year);
 			if (!myResultSet.next()) {                            
-				myConnectionToDB.myExeQuery("INSERT INTO series (brand, model, year) VALUES ('" + brand + "', '" + model + "', '" + year + "')");
-				exists = false;
+				myConnectionToDB.myExeQuery("INSERT INTO series (brand, model, year) VALUES ('" + brand + "', '" + model + "', " + year + ")");
+				myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM series WHERE brand = '" + brand + "' AND model = '" + model + "' AND year = " + year);
+				myResultSet.next();
 			}
 			this.serieNum = myResultSet.getInt("serieNum");
 			
@@ -38,33 +40,11 @@ public class Series {
                     e.printStackTrace();
                 }
             }
+			
 		}
-		
-		if(!exists) {
-			try {
-				myConnectionToDB = new ConnectionToDB();
-				
-				ResultSet myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM series WHERE brand = '" + brand + "' AND model = '" + model + "' AND year = '" + year + "'");
-				this.serieNum = myResultSet.getInt("serieNum");
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-				
-			} finally {
-				if(myConnectionToDB != null){
-	                try{
-	                	myConnectionToDB.disconnect();
-	                } catch (Exception e){
-	                    e.printStackTrace();
-	                }
-	            }
-			}
-		}
-		
 	}
 	
 	
-
 	public int getSerieNum() {
 		return this.serieNum;
 	}
@@ -96,4 +76,6 @@ public class Series {
 	public void setYear(int year) {
 		this.year = year;
 	}
+	
+	
 }

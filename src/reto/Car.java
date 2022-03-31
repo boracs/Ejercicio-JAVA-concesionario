@@ -5,6 +5,7 @@ public class Car extends Vehicle {
 	private int numDoors;
 	private int trunkCapacity;
 	
+	
 	public Car(String brand, String model, int year, String registration, String numFrame,
 			String colour, int numOfSeats, int price, int numDoors, int trunkCapacity) {
 		
@@ -17,7 +18,7 @@ public class Car extends Vehicle {
 		
 		try {
 			myConnectionToDB = new ConnectionToDB();
-			myConnectionToDB.myExeQuery("INSERT INTO car VALUES ('" + registration + "','" + numDoors + "','" + trunkCapacity + "')");
+			myConnectionToDB.myExeQuery("INSERT INTO car VALUES ('" + registration.toUpperCase() + "', " + numDoors + ", " + trunkCapacity + ")");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

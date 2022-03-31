@@ -1,5 +1,6 @@
 package reto;
 
+import java.util.Calendar;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -52,27 +53,29 @@ public class Concessionaire {
 			myConnectionToDB = new ConnectionToDB();
 			
 			System.out.println("\n\nCARS");
-			ResultSet myResultSetCar = myConnectionToDB.myQuery("SELECT * FROM vehicle, car WHERE vehicle.registration = car.registration");
+			ResultSet myResultSetCar = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, car WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = car.registration");
 			if (!myResultSetCar.next()) {                            
 				System.out.println("\nNo cars to show!");
 			}
 			while(myResultSetCar.next()) {
 				StringBuilder sb = new StringBuilder();
+				sb.append("\nSeries:\t\t" + myResultSetCar.getString("brand") + " " + myResultSetCar.getString("model") + " " + myResultSetCar.getInt("year"));
 				sb.append("\nRegistration:\t" + myResultSetCar.getString("registration"));
 				sb.append("\nFrame number:\t" + myResultSetCar.getString("numFrame"));
 				sb.append("\nColour:\t\t" + myResultSetCar.getString("colour"));
-				sb.append("\nDoors number:\t" + myResultSetCar.getInt("numDoors"));
+				sb.append("\nDoor number:\t" + myResultSetCar.getInt("numDoors"));
 				sb.append("\nTrunk capacity:\t" + myResultSetCar.getInt("trunkCapacity"));
 				System.out.println(sb.toString());
 			}
 			
 			System.out.println("\n\nTRUCKS");
-			ResultSet myResultSetTruck = myConnectionToDB.myQuery("SELECT * FROM vehicle, truck WHERE vehicle.registration = truck.registration");
+			ResultSet myResultSetTruck = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, truck WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = truck.registration");
 			if (!myResultSetTruck.next()) {                            
 				System.out.println("\nNo trucks to show!");
 			}
 			while(myResultSetTruck.next()) {
 				StringBuilder sb = new StringBuilder();
+				sb.append("\nSeries:\t\t" + myResultSetCar.getString("brand") + " " + myResultSetCar.getString("model") + " " + myResultSetCar.getInt("year"));
 				sb.append("\nRegistration:\t" + myResultSetTruck.getString("registration"));
 				sb.append("\nFrame number:\t" + myResultSetTruck.getString("numFrame"));
 				sb.append("\nColour:\t\t" + myResultSetTruck.getString("colour"));
@@ -93,15 +96,68 @@ public class Concessionaire {
                 }
             }
 		}
+		System.out.println("\n");
+		menu();
 	}
 
 	public static void buy() {
 		
-		String registration;
+		String brand;
 		boolean correct = true;
 		do {
 			if(correct == false) {
-				System.out.println("*Incorrect registration!");
+				System.out.println("*The brand must have 2-45 characters!");
+			}
+			System.out.println("\nEnter brand:");
+			brand = Console.readString();
+			if(brand.length() > 45 || brand.length() < 2) {
+				correct = false;
+			}else {
+				correct = true;
+			}
+		} while (correct == false);
+
+		
+		String model;
+		correct = true;
+		do {
+			if(correct == false) {
+				System.out.println("*The model must have 2-45 characters!");
+			}
+			System.out.println("\nEnter model:");
+			model = Console.readString();
+			if(model.length() > 45 || model.length() < 2) {
+				correct = false;
+			}else {
+				correct = true;
+			}
+		} while (correct == false);
+		
+		
+		int year;
+		correct = true;
+		do {
+			Calendar instance = Calendar.getInstance();
+	        int currentYear = instance.get(Calendar.YEAR);
+			if(correct == false) {
+				System.out.println("*The year must be between 1900 and " + currentYear + "!");
+			}
+			System.out.println("\nEnter year:");
+			year = Console.readInt();
+			 
+			if(year > currentYear || year < 1900) {
+				correct = false;
+			}else {
+				correct = true;
+			}
+		} while (correct == false);
+		
+		
+		String registration;
+		correct = true;
+		do {
+			if(correct == false) {
+				System.out.println("*The registration must have 4-10 characters");
 			}
 			System.out.println("\nEnter registration:");
 			registration = Console.readString();
@@ -117,11 +173,11 @@ public class Concessionaire {
 		correct = true;
 		do {
 			if(correct == false) {
-				System.out.println("*The frame number must have 8-45 characters!");
+				System.out.println("*The frame number must have 17 characters!");
 			}
 			System.out.println("\nEnter frame number:");
 			numFrame = Console.readString();
-			if(numFrame.length() > 45 || numFrame.length() < 8) {
+			if(numFrame.length() != 17) {
 				correct = false;
 			}else {
 				correct = true;
@@ -138,6 +194,38 @@ public class Concessionaire {
 			System.out.println("\nEnter colour:");
 			colour = Console.readString();
 			if(colour.length() > 45 || colour.length() < 3) {
+				correct = false;
+			}else {
+				correct = true;
+			}
+		} while (correct == false);
+		
+		
+		int numOfSeats;
+		correct = true;
+		do {
+			if(correct == false) {
+				System.out.println("*The seat number must be between 1 and 9!");
+			}
+			System.out.println("\nEnter seat number:");
+			numOfSeats = Console.readInt();
+			if(numOfSeats > 9 || numOfSeats < 1) {
+				correct = false;
+			}else {
+				correct = true;
+			}
+		} while (correct == false);
+		
+		
+		int price;
+		correct = true;
+		do {
+			if(correct == false) {
+				System.out.println("*The price must be between 0 and 1.000.000!");
+			}
+			System.out.println("\nEnter price:");
+			price = Console.readInt();
+			if(price > 1000000 || price < 0) {
 				correct = false;
 			}else {
 				correct = true;
@@ -176,9 +264,7 @@ public class Concessionaire {
 			}
 		} while (correct == false);
 
-		Car myCar = new Car ("Volvo", "XC90", 2020, registration, numFrame, colour, 5, 2000, numDoors, trunkCapacity);
-		
-		System.out.println("\nCar added to the DB!");
+		Car myCar = new Car (brand, model, year, registration, numFrame, colour, numOfSeats, price, numDoors, trunkCapacity);
 		
 		
 	}

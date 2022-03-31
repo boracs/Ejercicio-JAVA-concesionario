@@ -1,5 +1,6 @@
 package reto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class Vehicle extends Series{
@@ -10,9 +11,11 @@ public abstract class Vehicle extends Series{
 	private String colour;
 	private int numOfSeats;
 	private int price;
-	private boolean painted;
-	private boolean sold;
+	private int painted;
+	private int sold;
+	private Date buyDate;
 	private Date sellDate;
+	
 	
 	public Vehicle(String brand, String model, int year, String registration,
 			String numFrame, String colour, int numOfSeats, int price) {
@@ -23,16 +26,18 @@ public abstract class Vehicle extends Series{
 		this.colour = colour;
 		this.numOfSeats = numOfSeats; 
 		this.price = price;
-		this.painted = false;
-		this.sold = false;
-		this.sellDate = null;
+		this.painted = 0;
+		this.sold = 0;
+		this.buyDate = new Date();
+		this.sellDate = new Date(0);
 		
 		
 		ConnectionToDB myConnectionToDB = null;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
 		
 		try {
 			myConnectionToDB = new ConnectionToDB();
-			myConnectionToDB.myExeQuery("INSERT INTO vehicle VALUES ('" + super.getSerieNum() + "', '" + registration + "', '" + numFrame + "', '" + colour + "')");
+			myConnectionToDB.myExeQuery("INSERT INTO vehicle VALUES (" + super.getSerieNum() + ", '" + registration + "', '" + numFrame + "', '" + colour + "', " + numOfSeats + ", " + price + ", 0, 0, " + dateFormat.format(new Date()) + ", " + dateFormat.format(new Date()) + ")");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,15 +78,19 @@ public abstract class Vehicle extends Series{
 		return this.price;
 	}
 
-	public boolean isPainted() {
+	public int isPainted() {
 		return this.painted;
 	}
 
-	public boolean isSold() {
+	public int isSold() {
 		return this.sold;
 	}
 
-	public Date getFechaVenta() {
+	public Date getBuyDate() {
+		return this.buyDate;
+	}
+	
+	public Date getSellDate() {
 		return this.sellDate;
 	}
 
@@ -109,32 +118,35 @@ public abstract class Vehicle extends Series{
 		this.price = price;
 	}
 
-	public void setPainted(boolean painted) {
+	public void setPainted(int painted) {
 		this.painted = painted;
 	}
 
-	public void setSold(boolean sold) {
+	public void setSold(int sold) {
 		this.sold = sold;
 	}
 
-	public void setFechaVenta(Date sellDate) {
+	public void setBuyDate(Date buyDate) {
+		this.sellDate = buyDate;
+	}
+	
+	public void setSellDate(Date sellDate) {
 		this.sellDate = sellDate;
 	}
-
 	
 	
 	public void paint(String colour) {
 		this.colour = colour;
-		this.painted = true;
+		this.painted = 1;
 	}
 	
 	public void rePaint() {
-		this.painted = true;
+		this.painted = 1;
 	}
 	
 	public void sell() {
-		this.sold = true;
-		this.sellDate = new Date();  //set current date
+		this.sold = 1;
+		this.sellDate = new Date();
 	}
 	
 	
