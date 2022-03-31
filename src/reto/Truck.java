@@ -8,7 +8,7 @@ public class Truck extends Vehicle {
 	public Truck(String brand, String model, int year, String registration, String numFrame,
 			String colour, int numOfSeats, int price, int load, char merchandiseType) {
 		
-		super(/*brand, model, year,*/ registration, numFrame, colour, numOfSeats, price);
+		super(brand, model, year, registration, numFrame, colour, numOfSeats, price);
 		this.load = load;
 		this.merchandiseType = merchandiseType;
 	}

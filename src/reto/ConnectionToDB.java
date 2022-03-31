@@ -27,7 +27,21 @@ public class ConnectionToDB {
 			return myResultSet;
 		}
 	}
-		
+	
+	public void myExeQuery(String myExeQuery) {
+				
+		try {
+			//empty password for macOS, root for Windows
+			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "root");
+			Statement myStatement = this.myConnection.createStatement();
+			myStatement.executeUpdate(myExeQuery);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+	}
+	
 	public void disconnect() {
 		
 		try {

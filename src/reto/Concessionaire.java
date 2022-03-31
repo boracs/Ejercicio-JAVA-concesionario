@@ -115,7 +115,7 @@ public class Concessionaire {
 			}
 			System.out.println("\nEnter frame number:");
 			numFrame = Console.readString();
-			if(numFrame.length() > 45) {
+			if(numFrame.length() > 45 || numFrame.length() < 8) {
 				correct = false;
 			}else {
 				correct = true;
@@ -131,7 +131,7 @@ public class Concessionaire {
 			}
 			System.out.println("\nEnter colour:");
 			colour = Console.readString();
-			if(colour.length() > 45 || colour.length() < 1) {
+			if(colour.length() > 45 || colour.length() < 3) {
 				correct = false;
 			}else {
 				correct = true;
@@ -170,8 +170,9 @@ public class Concessionaire {
 			}
 		} while (correct == false);
 
-		Car myCar = new Car (registration, numFrame, colour, 5, 2000, numDoors, trunkCapacity);
-		//System.out.println("Car bought!");
+		Car myCar = new Car ("Volvo", "XC90", 2020, registration, numFrame, colour, 5, 2000, numDoors, trunkCapacity);
+		
+		System.out.println("\nCar added to the DB!");
 		
 		
 	}

@@ -2,7 +2,7 @@ package reto;
 
 import java.util.Date;
 
-public abstract class Vehicle /*extends Series*/{
+public abstract class Vehicle extends Series{
 	
 	private int serieNum;
 	private String registration;
@@ -14,10 +14,11 @@ public abstract class Vehicle /*extends Series*/{
 	private boolean sold;
 	private Date sellDate;
 	
-	public Vehicle(/*String brand, String model, int year,*/ String registration, String numFrame, String colour, int numOfSeats, int price) {
+	public Vehicle(String brand, String model, int year, String registration,
+			String numFrame, String colour, int numOfSeats, int price) {
 		
-		/*super(brand, model, year);*/
-		this.serieNum = -1;
+		super(brand, model, year);
+		this.serieNum = super.getSerieNum();
 		this.numFrame = numFrame;
 		this.colour = colour;
 		this.numOfSeats = numOfSeats; 
@@ -26,7 +27,25 @@ public abstract class Vehicle /*extends Series*/{
 		this.sold = false;
 		this.sellDate = null;
 		
-		//aquí probamos el insert into
+		
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("INSERT INTO vehicle VALUES ('" + super.getSerieNum() + "', '" + registration + "', '" + numFrame + "', '" + colour + "')");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+                try{
+                	myConnectionToDB.disconnect();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+		}
 	}
 
 	
