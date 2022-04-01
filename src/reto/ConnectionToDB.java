@@ -15,7 +15,7 @@ public class ConnectionToDB {
 		ResultSet myResultSet = null;
 		
 		try {
-			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "");
+			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "root");
 			Statement myStatement = this.myConnection.createStatement();
 			myResultSet = myStatement.executeQuery(myQuery);
 			
@@ -32,7 +32,7 @@ public class ConnectionToDB {
 	public void myExeQuery(String myExeQuery) {
 				
 		try {
-			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "");
+			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "root");
 			Statement myStatement = this.myConnection.createStatement();
 			myStatement.executeUpdate(myExeQuery);
 			

@@ -33,11 +33,10 @@ public abstract class Vehicle extends Series{
 		
 		
 		ConnectionToDB myConnectionToDB = null;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD hh:mm:ss");
 		
 		try {
 			myConnectionToDB = new ConnectionToDB();
-			myConnectionToDB.myExeQuery("INSERT INTO vehicle VALUES (" + super.getSerieNum() + ", '" + registration + "', '" + numFrame + "', '" + colour + "', " + numOfSeats + ", " + price + ", 0, 0, " + dateFormat.format(new Date()) + ", " + dateFormat.format(new Date()) + ")");
+			myConnectionToDB.myExeQuery("INSERT INTO vehicle VALUES (" + super.getSerieNum() + ", '" + registration + "', '" + numFrame + "', '" + colour + "', " + numOfSeats + ", " + price + ", 0, 0, CURDATE(), '0000-00-00')");
 			
 		} catch (Exception e) {
 			e.printStackTrace();

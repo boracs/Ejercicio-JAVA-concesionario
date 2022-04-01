@@ -56,32 +56,35 @@ public class Concessionaire {
 			ResultSet myResultSetCar = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, car WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = car.registration");
 			if (!myResultSetCar.next()) {                            
 				System.out.println("\nNo cars to show!");
-			}
-			while(myResultSetCar.next()) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("\nSeries:\t\t" + myResultSetCar.getString("brand") + " " + myResultSetCar.getString("model") + " " + myResultSetCar.getInt("year"));
-				sb.append("\nRegistration:\t" + myResultSetCar.getString("registration"));
-				sb.append("\nFrame number:\t" + myResultSetCar.getString("numFrame"));
-				sb.append("\nColour:\t\t" + myResultSetCar.getString("colour"));
-				sb.append("\nDoor number:\t" + myResultSetCar.getInt("numDoors"));
-				sb.append("\nTrunk capacity:\t" + myResultSetCar.getInt("trunkCapacity"));
-				System.out.println(sb.toString());
+			}else {
+				do {
+					StringBuilder sb = new StringBuilder();
+					sb.append("\nSeries:\t\t" + myResultSetCar.getString("brand") + " " + myResultSetCar.getString("model") + " " + myResultSetCar.getInt("year"));
+					sb.append("\nRegistration:\t" + myResultSetCar.getString("registration"));
+					sb.append("\nFrame number:\t" + myResultSetCar.getString("numFrame"));
+					sb.append("\nColour:\t\t" + myResultSetCar.getString("colour"));
+					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " €");
+					sb.append("\nDoor number:\t" + myResultSetCar.getInt("numDoors"));
+					sb.append("\nTrunk capacity:\t" + myResultSetCar.getInt("trunkCapacity") + " l");
+					System.out.println(sb.toString());
+				} while(myResultSetCar.next());
 			}
 			
 			System.out.println("\n\nTRUCKS");
 			ResultSet myResultSetTruck = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, truck WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = truck.registration");
 			if (!myResultSetTruck.next()) {                            
 				System.out.println("\nNo trucks to show!");
-			}
-			while(myResultSetTruck.next()) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("\nSeries:\t\t" + myResultSetCar.getString("brand") + " " + myResultSetCar.getString("model") + " " + myResultSetCar.getInt("year"));
-				sb.append("\nRegistration:\t" + myResultSetTruck.getString("registration"));
-				sb.append("\nFrame number:\t" + myResultSetTruck.getString("numFrame"));
-				sb.append("\nColour:\t\t" + myResultSetTruck.getString("colour"));
-				sb.append("\nLoad:\t\t" + myResultSetTruck.getInt("load"));
-				sb.append("\nMerchan. type:\t" + myResultSetTruck.getString("merchandiseType"));
-				System.out.println(sb.toString());
+			}else {
+				do {
+					StringBuilder sb = new StringBuilder();
+					sb.append("\nSeries:\t\t" + myResultSetCar.getString("brand") + " " + myResultSetCar.getString("model") + " " + myResultSetCar.getInt("year"));
+					sb.append("\nRegistration:\t" + myResultSetTruck.getString("registration"));
+					sb.append("\nFrame number:\t" + myResultSetTruck.getString("numFrame"));
+					sb.append("\nColour:\t\t" + myResultSetTruck.getString("colour"));
+					sb.append("\nLoad:\t\t" + myResultSetTruck.getInt("load"));
+					sb.append("\nMerchan. type:\t" + myResultSetTruck.getString("merchandiseType"));
+					System.out.println(sb.toString());
+				} while(myResultSetTruck.next());
 			}
 			
 		} catch (SQLException e) {
@@ -154,19 +157,44 @@ public class Concessionaire {
 		
 		
 		String registration;
+		boolean exists = false;
 		correct = true;
 		do {
 			if(correct == false) {
 				System.out.println("*The registration must have 4-10 characters");
+			}else if(exists == true) {
+				System.out.println("*The registration allready exists!");
 			}
 			System.out.println("\nEnter registration:");
 			registration = Console.readString();
+			
+			ConnectionToDB myConnectionToDB = null;
+			
+			try {
+				myConnectionToDB = new ConnectionToDB();
+				ResultSet myResultSetRegistration = myConnectionToDB.myQuery("SELECT numFrame FROM vehicle WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+				if (myResultSetRegistration.next()) { 
+					exists = true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				if(myConnectionToDB != null){
+	                try{
+	                	myConnectionToDB.disconnect();
+	                } catch (Exception e){
+	                    e.printStackTrace();
+	                }
+	            }
+			}
+			
 			if(registration.length() > 10 || registration.length() < 4) {
 				correct = false;
 			}else {
 				correct = true;
 			}
-		} while (correct == false);
+		} while (correct == false || exists == true);
 		
 		
 		String numFrame;
@@ -233,44 +261,98 @@ public class Concessionaire {
 		} while (correct == false);
 		
 		
-		int numDoors;
+		char answer;
 		correct = true;
 		do {
 			if(correct == false) {
-				System.out.println("*The door number must be between 2 and 5!");
+				System.out.println("*Enter 'c' for car or 't' for truck!");
 			}
-			System.out.println("\nEnter door number:");
-			numDoors = Console.readInt();
-			if(numDoors > 5 || numDoors < 2) {
-				correct = false;
-			}else {
+			System.out.println("\nWhich kind of vehicle are you buying? (Enter 'c' for car or 't' for truck)");
+			answer = Console.readChar();
+			if(Character.toLowerCase(answer) == 'c' || Character.toLowerCase(answer) == 't') {
 				correct = true;
+			}else {
+				correct = false;
 			}
-		} while (correct == false);
+		} while (correct == false);		
 		
 		
-		int trunkCapacity;
-		correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*The trunk capacity must be between 0 and 5000!");
-			}
-			System.out.println("\nEnter trunk capacity (l):");
-			trunkCapacity = Console.readInt();
-			if(trunkCapacity > 5000 || trunkCapacity < 0) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false);
+		if(Character.toLowerCase(answer) == 'c') {
+			
+			int numDoors;
+			correct = true;
+			do {
+				if(correct == false) {
+					System.out.println("*The door number must be between 2 and 5!");
+				}
+				System.out.println("\nEnter door number:");
+				numDoors = Console.readInt();
+				if(numDoors > 5 || numDoors < 2) {
+					correct = false;
+				}else {
+					correct = true;
+				}
+			} while (correct == false);
+			
+			int trunkCapacity;
+			correct = true;
+			do {
+				if(correct == false) {
+					System.out.println("*The trunk capacity must be between 0 and 5000!");
+				}
+				System.out.println("\nEnter trunk capacity (l):");
+				trunkCapacity = Console.readInt();
+				if(trunkCapacity > 5000 || trunkCapacity < 0) {
+					correct = false;
+				}else {
+					correct = true;
+				}
+			} while (correct == false);
 
-		Car myCar = new Car (brand, model, year, registration, numFrame, colour, numOfSeats, price, numDoors, trunkCapacity);
+			Car myCar = new Car (brand, model, year, registration, numFrame, colour, numOfSeats, price, numDoors, trunkCapacity);
+			
+		}else {
+			
+			int load;
+			correct = true;
+			do {
+				if(correct == false) {
+					System.out.println("*The load must be between 0 and 40000!");
+				}
+				System.out.println("\nEnter load (kg):");
+				load = Console.readInt();
+				if(load > 5 || load < 2) {
+					correct = false;
+				}else {
+					correct = true;
+				}
+			} while (correct == false);
+			
+			char merchandiseType;
+			correct = true;
+			do {
+				if(correct == false) {
+					System.out.println("*Enter 'g' for general, 'a' for arid or 'd' for dangerous!");
+				}
+				System.out.println("\nEnter merchandise type: ('g' for general, 'a' for arid or 'd' for dangerous)");
+				merchandiseType = Console.readChar();
+				if(Character.toLowerCase(merchandiseType) == 'g' || Character.toLowerCase(merchandiseType) == 'a' || Character.toLowerCase(merchandiseType) == 'd') {
+					correct = true;
+				}else {
+					correct = false;
+				}
+			} while (correct == false);
+			
+			
+			
+		}
 		
 		
+		System.out.println("\n");
+		menu();
 	}
 	
 	public static void sell() {
-		showVehicles();
 		System.out.println("\nEnter the registration of vehicle do you want to sell:");
 	}
 	

@@ -19,6 +19,7 @@ public class Car extends Vehicle {
 		try {
 			myConnectionToDB = new ConnectionToDB();
 			myConnectionToDB.myExeQuery("INSERT INTO car VALUES ('" + registration.toUpperCase() + "', " + numDoors + ", " + trunkCapacity + ")");
+			System.out.println("\nCar succesfully added to the Data Base!");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
