@@ -2,13 +2,16 @@ package reto;
 
 import java.sql.ResultSet;
 
-public class Series {
+public abstract class Series {
 	
 	private int serieNum;
 	private String brand;
 	private String model;
 	private int year;
 	
+	public Series() {
+		
+	}
 	
 	public Series(String brand, String model, int year) {
 		
@@ -42,6 +45,39 @@ public class Series {
             }
 			
 		}
+	}
+	
+	
+	public void sell(int serieNum) {
+		
+		ConnectionToDB myConnectionToDB = null;
+
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			ResultSet myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM vehicle WHERE serieNum = " + serieNum);
+			int rows = 0;
+			while (myResultSet.next()) {
+			    rows++;
+			}
+		    
+			if(rows < 1) {
+				myConnectionToDB.myExeQuery("DELETE FROM series WHERE serieNum = " + serieNum);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+                try{
+                	myConnectionToDB.disconnect();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }	
+		}
+		
+		System.out.println("\nVehicle succesfully removed from database!");
 	}
 	
 	

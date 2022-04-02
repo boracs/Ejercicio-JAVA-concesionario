@@ -8,6 +8,9 @@ import java.sql.ResultSet;
 public class ConnectionToDB {
 	
 	private Connection myConnection;
+	private final String path = "jdbc:mysql://localhost:3306/reto_grupo_7";
+	private final String user = "root";
+	private final String password = "";
 	
 	@SuppressWarnings("finally")
 	public ResultSet myQuery(String myQuery) {
@@ -15,7 +18,7 @@ public class ConnectionToDB {
 		ResultSet myResultSet = null;
 		
 		try {
-			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "root");
+			this.myConnection = DriverManager.getConnection(path, user, password);
 			Statement myStatement = this.myConnection.createStatement();
 			myResultSet = myStatement.executeQuery(myQuery);
 			
@@ -32,7 +35,7 @@ public class ConnectionToDB {
 	public void myExeQuery(String myExeQuery) {
 				
 		try {
-			this.myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/reto_grupo_7", "root", "root");
+			this.myConnection = DriverManager.getConnection(path, user, password);
 			Statement myStatement = this.myConnection.createStatement();
 			myStatement.executeUpdate(myExeQuery);
 			

@@ -1,6 +1,5 @@
 package reto;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class Vehicle extends Series{
@@ -12,10 +11,11 @@ public abstract class Vehicle extends Series{
 	private int numOfSeats;
 	private int price;
 	private int painted;
-	private int sold;
 	private Date buyDate;
-	private Date sellDate;
 	
+	public Vehicle() {
+		super();
+	}
 	
 	public Vehicle(String brand, String model, int year, String registration,
 			String numFrame, String colour, int numOfSeats, int price) {
@@ -27,16 +27,14 @@ public abstract class Vehicle extends Series{
 		this.numOfSeats = numOfSeats; 
 		this.price = price;
 		this.painted = 0;
-		this.sold = 0;
 		this.buyDate = new Date();
-		this.sellDate = new Date(0);
 		
 		
 		ConnectionToDB myConnectionToDB = null;
 		
 		try {
 			myConnectionToDB = new ConnectionToDB();
-			myConnectionToDB.myExeQuery("INSERT INTO vehicle VALUES (" + super.getSerieNum() + ", '" + registration + "', '" + numFrame + "', '" + colour + "', " + numOfSeats + ", " + price + ", 0, 0, CURDATE(), '0000-00-00')");
+			myConnectionToDB.myExeQuery("INSERT INTO vehicle VALUES (" + super.getSerieNum() + ", '" + registration + "', '" + numFrame + "', '" + colour.toLowerCase() + "', " + numOfSeats + ", " + price + ", 0, CURDATE())");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -50,6 +48,32 @@ public abstract class Vehicle extends Series{
                 }
             }
 		}
+	}
+	
+	
+	public void sell(int serieNum, String registration) {
+		
+		ConnectionToDB myConnectionToDB = null;
+
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("DELETE FROM vehicle WHERE registration = '" + registration + "'");
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+                try{
+                	myConnectionToDB.disconnect();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+		}
+		
+		super.sell(serieNum);
 	}
 
 	
@@ -81,16 +105,8 @@ public abstract class Vehicle extends Series{
 		return this.painted;
 	}
 
-	public int isSold() {
-		return this.sold;
-	}
-
 	public Date getBuyDate() {
 		return this.buyDate;
-	}
-	
-	public Date getSellDate() {
-		return this.sellDate;
 	}
 
 	public void setSerieNum(int serieNum) {
@@ -121,16 +137,8 @@ public abstract class Vehicle extends Series{
 		this.painted = painted;
 	}
 
-	public void setSold(int sold) {
-		this.sold = sold;
-	}
-
 	public void setBuyDate(Date buyDate) {
-		this.sellDate = buyDate;
-	}
-	
-	public void setSellDate(Date sellDate) {
-		this.sellDate = sellDate;
+		this.buyDate = buyDate;
 	}
 	
 	
@@ -141,11 +149,6 @@ public abstract class Vehicle extends Series{
 	
 	public void rePaint() {
 		this.painted = 1;
-	}
-	
-	public void sell() {
-		this.sold = 1;
-		this.sellDate = new Date();
 	}
 	
 	
