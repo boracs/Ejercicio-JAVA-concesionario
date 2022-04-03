@@ -38,6 +38,7 @@ public class Truck extends Vehicle {
 		}
 	}
 
+	
 	public void sell(int serieNum, String registration) {
 		
 		ConnectionToDB myConnectionToDB = null;
@@ -62,6 +63,7 @@ public class Truck extends Vehicle {
 		super.sell(serieNum, registration);
 	}
 	
+	
 	public int getLoad() {
 		return this.load;
 	}
@@ -77,6 +79,5 @@ public class Truck extends Vehicle {
 	public void setMerchandiseType(char merchandiseType) {
 		this.merchandiseType = merchandiseType;
 	}
-	
 	
 }

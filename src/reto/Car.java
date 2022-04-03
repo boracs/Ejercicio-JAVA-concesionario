@@ -63,6 +63,10 @@ public class Car extends Vehicle {
 		super.sell(serieNum, registration);
 	}
 
+	public void paint(String registration, String colour) {
+		super.paint(registration, colour);
+	}
+	
 	
 	public int getNumDoors() {
 		return this.numDoors;
@@ -79,6 +83,5 @@ public class Car extends Vehicle {
 	public void setTrunkCapacity(int trunkCapacity) {
 		this.trunkCapacity = trunkCapacity;
 	}
-	
 	
 }

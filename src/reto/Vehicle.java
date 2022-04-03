@@ -76,6 +76,54 @@ public abstract class Vehicle extends Series{
 		super.sell(serieNum);
 	}
 
+	public void paint(String registration, String colour) {
+		
+		ConnectionToDB myConnectionToDB = null;
+
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE vehicle SET colour = '" + colour + "', painted = 1 WHERE registration = '" + registration + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+                try{
+                	myConnectionToDB.disconnect();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+		}
+		
+		System.out.println("\nVehicle succesfully painted " + colour + "!");
+	}
+	
+	public void rePaint(String registration) {
+		
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE vehicle SET painted = 1 WHERE registration = '" + registration + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+				try{
+					myConnectionToDB.disconnect();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		System.out.println("\nVehicle succesfully repainted!");
+	}
+	
 	
 	public int getSerieNum() {
 		return this.serieNum;
@@ -140,16 +188,5 @@ public abstract class Vehicle extends Series{
 	public void setBuyDate(Date buyDate) {
 		this.buyDate = buyDate;
 	}
-	
-	
-	public void paint(String colour) {
-		this.colour = colour;
-		this.painted = 1;
-	}
-	
-	public void rePaint() {
-		this.painted = 1;
-	}
-	
 	
 }

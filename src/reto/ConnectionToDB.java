@@ -31,7 +31,6 @@ public class ConnectionToDB {
 		}
 	}
 	
-	
 	public void myExeQuery(String myExeQuery) {
 				
 		try {
@@ -45,7 +44,6 @@ public class ConnectionToDB {
 		}
 	}
 	
-		
 	public void disconnect() {
 		
 		try {
@@ -56,6 +54,5 @@ public class ConnectionToDB {
 			
 		}
 	}
-	
 	
 }

@@ -1,6 +1,5 @@
 package reto;
 
-import java.util.Calendar;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -11,23 +10,31 @@ public class Concessionaire {
 		StringBuilder sb = new StringBuilder();
 		sb.append("------ MENU ------");
 		sb.append("\n");
-		sb.append("\n(1) Buy vehicle");
-		sb.append("\n(2) Sell vehicle");
-		sb.append("\n(3) Paint vehicle");
-		sb.append("\n(4) Modify vehicle");
-		sb.append("\n(5) Show vehicles");
+		sb.append("\n(1) Show vehicles");
+		sb.append("\n(2) Buy vehicle");
+		sb.append("\n(3) Sell vehicle");
+		sb.append("\n(4) Paint vehicle");
+		sb.append("\n(5) Modify vehicle");
 		sb.append("\n(6) Check sales");
 		sb.append("\n\nEnter an option:");
 		System.out.println(sb.toString());
 		
 		
 		int option;
+		String optionString;
 		boolean correct = true;
 		do {
 			if(correct == false) {
 				System.out.println("*The options are from 1 to 6!\n\nEnter an option:");
 			}
-			option = Console.readInt();
+			optionString = Console.readString();
+			
+			while(!optionString.matches("[0-9]+")){
+				System.out.println("*Only numbers!");
+				System.out.println("\nEnter an option:");
+				optionString = Console.readString();
+			}
+			option = Integer.parseInt(optionString);
 			if(option < 1 || option > 6) {
 				correct = false;
 			}else {
@@ -38,28 +45,35 @@ public class Concessionaire {
 		
 		switch(option) {
 			case 1:
-				buy();
+				show();
 				break;
 			case 2:
-				sell();
+				buy();
 				break;
 			case 3:
-				paint();
+				sell();
 				break;
 			case 4:
-				modify();
+				paint();
 				break;
 			case 5:
-				showVehicles(); 
+				modify(); 
 				break;
 			case 6:
 				checkSales();
 				break; 
-
 		}
+		
 	}
 	
-	public static void showVehicles() {
+	public static void show() {
+		
+		char answer = AskFor.allOrColor();
+		
+		String colour = null;
+		if(Character.toLowerCase(answer) == 'c') {
+			colour = AskFor.colour();
+		}
 		
 		ConnectionToDB myConnectionToDB = null;
 		
@@ -67,8 +81,13 @@ public class Concessionaire {
 			myConnectionToDB = new ConnectionToDB();
 			
 			System.out.println("\nCARS");
-			ResultSet myResultSetCar = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, car WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = car.carRegistration");
-			if (!myResultSetCar.next()) {                            
+			ResultSet myResultSetCar;
+			if(Character.toLowerCase(answer) == 'c') {
+				myResultSetCar = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, car WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = car.carRegistration AND LOWER(vehicle.colour) = '" + colour.toLowerCase() + "'");
+			}else {
+				myResultSetCar = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, car WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = car.carRegistration");
+			}
+				if (!myResultSetCar.next()) {                            
 				System.out.println("\nNo cars to show!");
 			}else {
 				do {
@@ -84,9 +103,14 @@ public class Concessionaire {
 				} while(myResultSetCar.next());
 			}
 			
+			ResultSet myResultSetTruck;
 			System.out.println("\nTRUCKS");
-			ResultSet myResultSetTruck = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, truck WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = truck.truckRegistration");
-			if (!myResultSetTruck.next()) {                            
+			if(Character.toLowerCase(answer) == 'c') {
+				myResultSetTruck = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, truck WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = truck.truckRegistration AND LOWER(vehicle.colour) = '" + colour.toLowerCase() + "'");
+			}else {
+				myResultSetTruck = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, truck WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = truck.truckRegistration");
+			}
+				if (!myResultSetTruck.next()) {                            
 				System.out.println("\nNo trucks to show!");
 			}else {
 				do {
@@ -117,310 +141,35 @@ public class Concessionaire {
 			System.out.println("\n");
 			menu();
 		}
+		
 	}
 
 	public static void buy() {
 		
-		char answer;
-		boolean correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*Enter 'c' for car or 't' for truck!");
-			}
-			System.out.println("\nWhich kind of vehicle are you buying? (Enter 'c' for car or 't' for truck)");
-			answer = Console.readChar();
-			if(Character.toLowerCase(answer) == 'c' || Character.toLowerCase(answer) == 't') {
-				correct = true;
-			}else {
-				correct = false;
-			}
-		} while (correct == false);	
+		char answer = AskFor.carOrTruck();
 		
-		
-		String brand;
-		correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*The brand must have 2-45 characters!");
-			}
-			System.out.println("\nEnter brand:");
-			brand = Console.readString();
-			if(brand.length() > 45 || brand.length() < 2) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false);
-
-		
-		String model;
-		correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*The model must have 2-45 characters!");
-			}
-			System.out.println("\nEnter model:");
-			model = Console.readString();
-			if(model.length() > 45 || model.length() < 2) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false);
-		
-		
-		int year;
-		String yearString;
-		correct = true;
-		do {
-			Calendar instance = Calendar.getInstance();
-	        int currentYear = instance.get(Calendar.YEAR);
-			if(correct == false) {
-				System.out.println("*The year must be between 1900 and " + currentYear + "!");
-			}
-			System.out.println("\nEnter year:");
-			yearString = Console.readString();
-			
-			while(!yearString.matches("[0-9]+")){
-				System.out.println("*Only numbers!");
-				System.out.println("\nEnter year:");
-				yearString = Console.readString();
-			}
-			year = Integer.parseInt(yearString);
-			 
-			if(year > currentYear || year < 1900) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false);
-		
-		
-		String registration;
-		boolean exists = false;
-		correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*The registration must have 4-10 characters");
-			}else if(exists == true) {
-				System.out.println("*The registration allready exists!");
-			}
-			System.out.println("\nEnter registration:");
-			registration = Console.readString();
-			
-			ConnectionToDB myConnectionToDB = null;
-			
-			try {
-				myConnectionToDB = new ConnectionToDB();
-				ResultSet myResultSetRegistration = myConnectionToDB.myQuery("SELECT numFrame FROM vehicle WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
-				if (myResultSetRegistration.next()) { 
-					exists = true;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				
-			} finally {
-				if(myConnectionToDB != null){
-	                try{
-	                	myConnectionToDB.disconnect();
-	                } catch (Exception e){
-	                    e.printStackTrace();
-	                }
-	            }
-			}
-			
-			if(registration.length() > 10 || registration.length() < 4) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false || exists == true);
-		
-		
-		String numFrame;
-		correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*The frame number must have 17 characters!");
-			}
-			System.out.println("\nEnter frame number:");
-			numFrame = Console.readString();
-			if(numFrame.length() != 17) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false);
-		
-		
-		String colour;
-		correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*The colour must have 3-45 characters!");
-			}
-			System.out.println("\nEnter colour:");
-			colour = Console.readString();
-			if(colour.length() > 45 || colour.length() < 3) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false);
-		
-		
-		int numOfSeats;
-		String numOfSeatsString;
-		correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*The seat number must be between 1 and 9!");
-			}
-			System.out.println("\nEnter seat number:");
-			numOfSeatsString = Console.readString();
-			
-			while(!numOfSeatsString.matches("[0-9]+")){
-				System.out.println("*Only numbers!");
-				System.out.println("\nEnter seat number:");
-				numOfSeatsString = Console.readString();
-			}
-			numOfSeats = Integer.parseInt(numOfSeatsString);
-			
-			if(numOfSeats > 9 || numOfSeats < 1) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false);
-		
-		
-		int price;
-		String priceString;
-		correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*The price must be between 0 and 3.000.000!");
-			}
-			System.out.println("\nEnter price:");
-			priceString = Console.readString();
-			
-			while(!priceString.matches("[0-9]+")){
-				System.out.println("*Only numbers!");
-				System.out.println("\nEnter price:");
-				priceString = Console.readString();
-			}
-			price = Integer.parseInt(priceString);
-
-			if(price > 3000000 || price < 0) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false);	
-		
+		String brand = AskFor.brand();
+		String model = AskFor.model();
+		int year = AskFor.year();
+		String registration = AskFor.registration();
+		String numFrame = AskFor.numFrame();
+		String colour = AskFor.colour();
+		int numOfSeats = AskFor.numOfSeats();
+		int price = AskFor.price();
 		
 		if(Character.toLowerCase(answer) == 'c') {
 			
+			int numDoors = AskFor.numDoors();
+			int trunkCapacity = AskFor.trunkCapacity();
 			
-			int numDoors;
-			String numDoorsString;
-			correct = true;
-			do {
-				if(correct == false) {
-					System.out.println("*The door number must be between 2 and 5!");
-				}
-				System.out.println("\nEnter door number:");
-				numDoorsString = Console.readString();
-				
-				while(!numDoorsString.matches("[0-9]+")){
-					System.out.println("*Only numbers!");
-					System.out.println("\nEnter door number:");
-					numDoorsString = Console.readString();
-				}
-				numDoors = Integer.parseInt(numDoorsString);
-				
-				if(numDoors > 5 || numDoors < 2) {
-					correct = false;
-				}else {
-					correct = true;
-				}
-			} while (correct == false);
-			
-			
-			int trunkCapacity;
-			String trunkCapacityString;
-			correct = true;
-			do {
-				if(correct == false) {
-					System.out.println("*The trunk capacity must be between 0 and 5000!");
-				}
-				System.out.println("\nEnter trunk capacity (l):");
-				trunkCapacityString = Console.readString();
-				
-				while(!trunkCapacityString.matches("[0-9]+")){
-					System.out.println("*Only numbers!");
-					System.out.println("\nEnter trunk capacity (l):");
-					trunkCapacityString = Console.readString();
-				}
-				trunkCapacity = Integer.parseInt(trunkCapacityString);
-				
-				if(trunkCapacity > 5000 || trunkCapacity < 0) {
-					correct = false;
-				}else {
-					correct = true;
-				}
-			} while (correct == false);
-
-			
-			Car myCar = new Car (brand, model, year, registration, numFrame, colour, numOfSeats, price, numDoors, trunkCapacity);
-			
+			new Car (brand, model, year, registration, numFrame, colour, numOfSeats, price, numDoors, trunkCapacity);
 			
 		}else {
 			
+			int load = AskFor.load();
+			char merchandiseType = AskFor.merchandiseType();
 			
-			int load;
-			String loadString;
-			correct = true;
-			do {
-				if(correct == false) {
-					System.out.println("*The load must be between 0 and 40000!");
-				}
-				System.out.println("\nEnter load (kg):");
-				loadString = Console.readString();
-				
-				while(!loadString.matches("[0-9]+")){
-					System.out.println("*Only numbers!");
-					System.out.println("\nEnter load (kg):");
-					loadString = Console.readString();
-				}
-				load = Integer.parseInt(loadString);
-
-				if(load > 40000 || load < 0) {
-					correct = false;
-				}else {
-					correct = true;
-				}
-			} while (correct == false);
-			
-			
-			char merchandiseType;
-			correct = true;
-			do {
-				if(correct == false) {
-					System.out.println("*Enter 'G' for general, 'A' for arid or 'D' for dangerous!");
-				}
-				System.out.println("\nEnter merchandise type: ('G' for general, 'A' for arid or 'D' for dangerous)");
-				merchandiseType = Console.readChar();
-				if(Character.toUpperCase(merchandiseType) == 'G' || Character.toUpperCase(merchandiseType) == 'A' || Character.toUpperCase(merchandiseType) == 'D') {
-					correct = true;
-				}else {
-					correct = false;
-				}
-			} while (correct == false);
-			
-			
-			Truck myTruck = new Truck (brand, model, year, registration, numFrame, colour, numOfSeats, price, load, merchandiseType);
-			
+			new Truck (brand, model, year, registration, numFrame, colour, numOfSeats, price, load, merchandiseType);
 			
 		}
 		
@@ -492,7 +241,66 @@ public class Concessionaire {
 	
 	public static void paint() {
 		
+		String registration;
+		boolean exists = true;
+		boolean correct = true;
+		do {
+			if(correct == false) {
+				System.out.println("*The registration must have 4-10 characters");
+			}else if(exists == false) {
+				System.out.println("*The registration does not exist!");
+			}
+			System.out.println("\nEnter the registration of vehicle do you want to paint:");
+			registration = Console.readString();
+			
+			ConnectionToDB myConnectionToDB = null;
+			
+			try {
+				myConnectionToDB = new ConnectionToDB();
+				ResultSet myResultSetRegistration = myConnectionToDB.myQuery("SELECT serieNum, registration, colour FROM vehicle WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+				if (myResultSetRegistration.next()) { 
+					registration = myResultSetRegistration.getString("registration");
+					
+					char answer = AskFor.sameOrNewColor();
+					
+					if(Character.toLowerCase(answer) == 's') {
+						Car myCar = new Car();
+						myCar.rePaint(registration);
+					}else {
+						String colour = AskFor.colour();
+						
+						Car myCar = new Car();
+						myCar.paint(registration, colour);
+					}
+					
+				}else {
+					exists = false;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			} finally {
+				if(myConnectionToDB != null){
+					try{
+						myConnectionToDB.disconnect();
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			if(registration.length() > 10 || registration.length() < 4) {
+				correct = false;
+			}else {
+				correct = true;
+			}
+		} while (correct == false || exists == false);
+		
+		System.out.println("\n");
+		menu();
+		
 	}
+	
 	
 	public static void modify() {
 		
@@ -501,4 +309,5 @@ public class Concessionaire {
 	public static void checkSales() {
 		
 	}
+	
 }
