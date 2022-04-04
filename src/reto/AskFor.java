@@ -386,5 +386,25 @@ public class AskFor {
 		
 		return answer;
 	}
+	
+	public static String fileName(){
+		
+		String fileName;
+		boolean correct = true;
+		do {
+			if(correct == false) {
+				System.out.println("*The file name must have 1-45 characters!");
+			}
+			System.out.println("\nEnter file name (without extension):");
+			fileName = Console.readString();
+			if(fileName.length() > 45 || fileName.length() < 2) {
+				correct = false;
+			}else {
+				correct = true;
+			}
+		} while (correct == false);
+		
+		return fileName;
+	}
 
 }

@@ -9,6 +9,8 @@ public abstract class Vehicle extends Series{
 	public Vehicle(String brand, String model, int year, String registration,
 			String numFrame, String colour, int numOfSeats, int price) {
 		
+		super(brand, model, year);
+		
 		ConnectionToDB myConnectionToDB = null;
 		
 		try {
@@ -28,7 +30,6 @@ public abstract class Vehicle extends Series{
             }
 		}
 	}
-	
 	
 	public void sell(int serieNum, String registration) {
 		

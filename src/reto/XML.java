@@ -11,10 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -22,7 +20,6 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
-
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -31,20 +28,7 @@ public class XML {
 
 	public static void exportTo(){
 		
-		String fileName;
-		boolean correct = true;
-		do {
-			if(correct == false) {
-				System.out.println("*The file name must have 1-45 characters!");
-			}
-			System.out.println("\nEnter file name (without extension):");
-			fileName = Console.readString();
-			if(fileName.length() > 45 || fileName.length() < 2) {
-				correct = false;
-			}else {
-				correct = true;
-			}
-		} while (correct == false);
+		String fileName = AskFor.fileName();
 		
 		ConnectionToDB myConnectionToDB = null;
 		
@@ -214,11 +198,14 @@ public class XML {
 	}
 
 	public static void importFrom() {
+		
+		String fileName = AskFor.fileName();
+		
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			
-			Document documento = builder.parse(new File("concessionaire.xml"));
+			Document documento = builder.parse(new File(fileName + ".xml"));
 			
 			NodeList listaCoches = documento.getElementsByTagName("car");
 			for(int i = 0; i<listaCoches.getLength();i++) {
@@ -226,17 +213,162 @@ public class XML {
 				if(nodo.getNodeType() == Node.ELEMENT_NODE) {
 					Element e = (Element) nodo;
 					NodeList hijos = e.getChildNodes();
+					String brand = null;
+					String model = null;
+					int year = 0;
+					String registration = null;
+					String numFrame = null;
+					String colour = null;
+					int numOfSeats = 0;
+					int price = 0;							
+					int numDoors = 0;
+					int trunkCapacity = 0;
 					for(int j = 0; j<hijos.getLength(); j++) {
 						Node hijo = hijos.item(j);
+						
 						if(hijo.getNodeType() == Node.ELEMENT_NODE) {
-							System.out.println(Node.ELEMENT_NODE + "Propiedad: " + hijo.getNodeName() + ", Valor: " + hijo.getTextContent());
+							switch(hijo.getNodeName()) {
+								case "brand":
+									brand = hijo.getTextContent();
+									break;
+								case "model":
+									model = hijo.getTextContent();
+									break;
+								case "year":
+									year = Integer.parseInt(hijo.getTextContent());
+									break;
+								case "registration":
+									registration = hijo.getTextContent();
+									break;
+								case "numFrame":
+									numFrame = hijo.getTextContent();
+									break;
+								case "colour":
+									colour = hijo.getTextContent();
+									break;
+								case "numOfSeats":
+									numOfSeats = Integer.parseInt(hijo.getTextContent());
+									break;
+								case "price":
+									price = Integer.parseInt(hijo.getTextContent());
+									break;
+								case "numDoors":
+									numDoors = Integer.parseInt(hijo.getTextContent());
+									break;
+								case "trunkCapacity":
+									trunkCapacity = Integer.parseInt(hijo.getTextContent());
+									break;
+							}	
 						}
 					}
+					
+					ConnectionToDB myConnectionToDB = null;
+					
+					try {
+						myConnectionToDB = new ConnectionToDB();
+						ResultSet myResultSetRegistration = myConnectionToDB.myQuery("SELECT numFrame FROM vehicle WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+						if (!myResultSetRegistration.next()) { 
+							new Car (brand, model, year, registration, numFrame, colour, numOfSeats, price, numDoors, trunkCapacity);
+
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						
+					} finally {
+						if(myConnectionToDB != null){
+							try{
+								myConnectionToDB.disconnect();
+							} catch (Exception e1){
+								e1.printStackTrace();
+							}
+						}
+					}
+				}
+			}
+			
+			NodeList listaTrucks = documento.getElementsByTagName("truck");
+			for(int i = 0; i<listaTrucks.getLength();i++) {
+				Node nodo = listaTrucks.item(i);
+				if(nodo.getNodeType() == Node.ELEMENT_NODE) {
+					Element e = (Element) nodo;
+					NodeList hijos = e.getChildNodes();
+					String brand = null;
+					String model = null;
+					int year = 0;
+					String registration = null;
+					String numFrame = null;
+					String colour = null;
+					int numOfSeats = 0;
+					int price = 0;							
+					int load = 0;
+					char merchandiseType = 0;
+					for(int j = 0; j<hijos.getLength(); j++) {
+						Node hijo = hijos.item(j);
+						
+						if(hijo.getNodeType() == Node.ELEMENT_NODE) {
+							switch(hijo.getNodeName()) {
+							case "brand":
+								brand = hijo.getTextContent();
+								break;
+							case "model":
+								model = hijo.getTextContent();
+								break;
+							case "year":
+								year = Integer.parseInt(hijo.getTextContent());
+								break;
+							case "registration":
+								registration = hijo.getTextContent();
+								break;
+							case "numFrame":
+								numFrame = hijo.getTextContent();
+								break;
+							case "colour":
+								colour = hijo.getTextContent();
+								break;
+							case "numOfSeats":
+								numOfSeats = Integer.parseInt(hijo.getTextContent());
+								break;
+							case "price":
+								price = Integer.parseInt(hijo.getTextContent());
+								break;
+							case "load":
+								load = Integer.parseInt(hijo.getTextContent());
+								break;
+							case "merchandiseType":
+								merchandiseType = hijo.getTextContent().charAt(0);
+								break;
+							}	
+						}
+					}
+					
+					ConnectionToDB myConnectionToDB = null;
+					
+					try {
+						myConnectionToDB = new ConnectionToDB();
+						ResultSet myResultSetRegistration = myConnectionToDB.myQuery("SELECT numFrame FROM vehicle WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+						if (!myResultSetRegistration.next()) { 
+							new Truck (brand, model, year, registration, numFrame, colour, numOfSeats, price, load, merchandiseType);
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						
+					} finally {
+						if(myConnectionToDB != null){
+							try{
+								myConnectionToDB.disconnect();
+							} catch (Exception e1){
+								e1.printStackTrace();
+							}
+						}
+					}					
 				}
 			}
 			
 		} catch (ParserConfigurationException | SAXException | IOException ex) {
 			ex.printStackTrace();
 		} 
+		
+		System.out.println("\n");
+		Concessionaire.menu();
 	}
 }
