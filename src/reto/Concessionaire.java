@@ -8,7 +8,7 @@ public class Concessionaire {
 	public static void menu() {
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("------ MENU ------");
+		sb.append("------- MENU -------");
 		sb.append("\n");
 		sb.append("\n(1) Show vehicles");
 		sb.append("\n(2) Buy vehicle");
@@ -16,6 +16,8 @@ public class Concessionaire {
 		sb.append("\n(4) Paint vehicle");
 		sb.append("\n(5) Modify vehicle");
 		sb.append("\n(6) Check sales");
+		sb.append("\n(7) Export DB to XML");
+		sb.append("\n(8) Import XML to DB");
 		sb.append("\n\nEnter an option:");
 		System.out.println(sb.toString());
 		
@@ -25,7 +27,7 @@ public class Concessionaire {
 		boolean correct = true;
 		do {
 			if(correct == false) {
-				System.out.println("*The options are from 1 to 6!\n\nEnter an option:");
+				System.out.println("*The options are from 1 to 8!\n\nEnter an option:");
 			}
 			optionString = Console.readString();
 			
@@ -35,7 +37,7 @@ public class Concessionaire {
 				optionString = Console.readString();
 			}
 			option = Integer.parseInt(optionString);
-			if(option < 1 || option > 6) {
+			if(option < 1 || option > 8) {
 				correct = false;
 			}else {
 				correct = true;
@@ -62,6 +64,12 @@ public class Concessionaire {
 			case 6:
 				checkSales();
 				break; 
+			case 7:
+				XML.exportTo();
+				break; 
+			case 8:
+				XML.importFrom();
+				break; 
 		}
 		
 	}
@@ -87,7 +95,7 @@ public class Concessionaire {
 			}else {
 				myResultSetCar = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, car WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = car.carRegistration");
 			}
-				if (!myResultSetCar.next()) {                            
+			if (!myResultSetCar.next()) {                            
 				System.out.println("\nNo cars to show!");
 			}else {
 				do {
@@ -96,7 +104,7 @@ public class Concessionaire {
 					sb.append("\nRegistration:\t" + myResultSetCar.getString("registration"));
 					sb.append("\nFrame number:\t" + myResultSetCar.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetCar.getString("colour"));
-					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " â‚¬");
+					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " €");
 					sb.append("\nDoor number:\t" + myResultSetCar.getInt("numDoors"));
 					sb.append("\nTrunk capacity:\t" + myResultSetCar.getInt("trunkCapacity") + " l");
 					System.out.println(sb.toString());
@@ -119,7 +127,7 @@ public class Concessionaire {
 					sb.append("\nRegistration:\t" + myResultSetTruck.getString("registration"));
 					sb.append("\nFrame number:\t" + myResultSetTruck.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetTruck.getString("colour"));
-					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " â‚¬");
+					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " €");
 					sb.append("\nLoad:\t\t" + myResultSetTruck.getInt("load"));
 					sb.append("\nMerchan. type:\t" + myResultSetTruck.getString("merchandiseType"));
 					System.out.println(sb.toString());
@@ -205,11 +213,9 @@ public class Concessionaire {
 					myConnectionToDB2 = new ConnectionToDB();
 					ResultSet myResultSetRegistration2 = myConnectionToDB2.myQuery("SELECT carRegistration FROM car WHERE UPPER(carRegistration) = '" + registration.toUpperCase() + "'");
 					if (myResultSetRegistration2.next()) { 
-						Car myCar = new Car();
-						myCar.sell(serieNum, registration);
+						new Car().sell(serieNum, registration);
 					}else {
-						Truck myTruck = new Truck();
-						myTruck.sell(serieNum, registration);
+						new Truck().sell(serieNum, registration);
 					}
 				}else {
 					exists = false;
@@ -264,13 +270,10 @@ public class Concessionaire {
 					char answer = AskFor.sameOrNewColor();
 					
 					if(Character.toLowerCase(answer) == 's') {
-						Car myCar = new Car();
-						myCar.rePaint(registration);
+						new Car().rePaint(registration);
 					}else {
 						String colour = AskFor.colour();
-						
-						Car myCar = new Car();
-						myCar.paint(registration, colour);
+						new Car().paint(registration, colour);
 					}
 					
 				}else {
@@ -301,7 +304,9 @@ public class Concessionaire {
 		
 	}
 	
-	
+	public static void export() {
+		
+	}
 	public static void modify() {
 		
 	}

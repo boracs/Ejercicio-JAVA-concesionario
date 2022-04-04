@@ -1,17 +1,6 @@
 package reto;
 
-import java.util.Date;
-
 public abstract class Vehicle extends Series{
-	
-	private int serieNum;
-	private String registration;
-	private String numFrame;
-	private String colour;
-	private int numOfSeats;
-	private int price;
-	private int painted;
-	private Date buyDate;
 	
 	public Vehicle() {
 		super();
@@ -19,16 +8,6 @@ public abstract class Vehicle extends Series{
 	
 	public Vehicle(String brand, String model, int year, String registration,
 			String numFrame, String colour, int numOfSeats, int price) {
-		
-		super(brand, model, year);
-		this.serieNum = super.getSerieNum();
-		this.numFrame = numFrame;
-		this.colour = colour;
-		this.numOfSeats = numOfSeats; 
-		this.price = price;
-		this.painted = 0;
-		this.buyDate = new Date();
-		
 		
 		ConnectionToDB myConnectionToDB = null;
 		
@@ -122,71 +101,6 @@ public abstract class Vehicle extends Series{
 		}
 		
 		System.out.println("\nVehicle succesfully repainted!");
-	}
-	
-	
-	public int getSerieNum() {
-		return this.serieNum;
-	}
-	
-	public String getRegistration() {
-		return this.registration;
-	}
-	
-	public String getNumFrame() {
-		return this.numFrame;
-	}
-	
-	public String getColour() {
-		return this.colour;
-	}
-
-	public int getNumOfSeats() {
-		return this.numOfSeats;
-	}
-
-	public int getPrice() {
-		return this.price;
-	}
-
-	public int isPainted() {
-		return this.painted;
-	}
-
-	public Date getBuyDate() {
-		return this.buyDate;
-	}
-
-	public void setSerieNum(int serieNum) {
-		this.serieNum = serieNum;
-	}
-
-	public void setRegistration(String registration) {
-		this.registration = registration;
-	}
-
-	public void setNumFrame(String numFrame) {
-		this.numFrame = numFrame;
-	}
-
-	public void setColour(String colour) {
-		this.colour = colour;
-	}
-
-	public void setNumOfSeats(int numOfSeats) {
-		this.numOfSeats = numOfSeats;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-	public void setPainted(int painted) {
-		this.painted = painted;
-	}
-
-	public void setBuyDate(Date buyDate) {
-		this.buyDate = buyDate;
 	}
 	
 }

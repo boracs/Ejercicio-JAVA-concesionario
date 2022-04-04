@@ -1,9 +1,6 @@
 package reto;
 
 public class Car extends Vehicle {
-
-	private int numDoors;
-	private int trunkCapacity;
 	
 	public Car() {
 		super();
@@ -13,9 +10,6 @@ public class Car extends Vehicle {
 			String colour, int numOfSeats, int price, int numDoors, int trunkCapacity) {
 		
 		super(brand, model, year, registration, numFrame, colour, numOfSeats, price);
-		this.numDoors = numDoors;
-		this.trunkCapacity = trunkCapacity;
-		
 		
 		ConnectionToDB myConnectionToDB = null;
 		
@@ -65,23 +59,6 @@ public class Car extends Vehicle {
 
 	public void paint(String registration, String colour) {
 		super.paint(registration, colour);
-	}
-	
-	
-	public int getNumDoors() {
-		return this.numDoors;
-	}
-
-	public int getTrunkCapacity() {
-		return this.trunkCapacity;
-	}
-
-	public void setNumDoors(int numDoors) {
-		this.numDoors = numDoors;
-	}
-
-	public void setTrunkCapacity(int trunkCapacity) {
-		this.trunkCapacity = trunkCapacity;
 	}
 	
 }

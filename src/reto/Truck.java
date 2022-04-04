@@ -1,9 +1,6 @@
 package reto;
 
 public class Truck extends Vehicle {
-
-	private int load;
-	private char merchandiseType;
 	
 	public Truck() {
 		
@@ -13,9 +10,6 @@ public class Truck extends Vehicle {
 			String colour, int numOfSeats, int price, int load, char merchandiseType) {
 		
 		super(brand, model, year, registration, numFrame, colour, numOfSeats, price);
-		this.load = load;
-		this.merchandiseType = merchandiseType;
-		
 		
 		ConnectionToDB myConnectionToDB = null;
 		
@@ -61,23 +55,6 @@ public class Truck extends Vehicle {
 		}
 		
 		super.sell(serieNum, registration);
-	}
-	
-	
-	public int getLoad() {
-		return this.load;
-	}
-
-	public char getMerchandiseType() {
-		return this.merchandiseType;
-	}
-
-	public void setLoad(int load) {
-		this.load = load;
-	}
-
-	public void setMerchandiseType(char merchandiseType) {
-		this.merchandiseType = merchandiseType;
 	}
 	
 }
