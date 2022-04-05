@@ -58,12 +58,8 @@ public class Car extends Vehicle {
 		
 		super.sell(serieNum, registration);
 	}
-
-	public void paint(String registration, String colour) {
-		super.paint(registration, colour);
-	}
 	
-	public void modify(int serieNum, String registration) {
+	public void modifyMenu(int serieNum, String registration) {
 		
 		ConnectionToDB myConnectionToDB = null;
 		
@@ -80,10 +76,9 @@ public class Car extends Vehicle {
 			sb.append("\n(3) Year:\t\t" + myResultSetCar.getString("year"));
 			sb.append("\n(4) Registration:\t" + myResultSetCar.getString("registration"));
 			sb.append("\n(5) Frame number:\t" + myResultSetCar.getString("numFrame"));
-			sb.append("\n(6) Colour:\t\t" + myResultSetCar.getString("colour"));
-			sb.append("\n(7) Price:\t\t" + myResultSetCar.getInt("price") + " ï¿½");
-			sb.append("\n(8) Door number:\t" + myResultSetCar.getInt("numDoors"));
-			sb.append("\n(9) Trunk capacity:\t" + myResultSetCar.getInt("trunkCapacity") + " l");
+			sb.append("\n(6) Price:\t\t" + myResultSetCar.getInt("price") + " €");
+			sb.append("\n(7) Door number:\t" + myResultSetCar.getInt("numDoors"));
+			sb.append("\n(8) Trunk capacity:\t" + myResultSetCar.getInt("trunkCapacity") + " l");
 			sb.append("\n\nEnter an option:");
 			System.out.println(sb.toString());
 			}
@@ -125,22 +120,101 @@ public class Car extends Vehicle {
 		
 		switch(option) {
 			case 1:
+				//modifyBrand();
 				break;
 			case 2:
+				//modifyModel();
 				break;
 			case 3:
+				//modifyYear();
 				break;
 			case 4:
+				modifyRegistration(registration);
 				break;
 			case 5:
+				modifyNumFrame(registration);
 				break;
 			case 6:
+				modifyPrice(registration);
 				break; 
 			case 7:
+				modifyNumDoors(registration);
 				break; 
 			case 8:
+				modifyTrunkCapacity(registration);
 				break; 
+ 
+		}
+	}
+
+	public void modifyRegistration(String registration) {
+		
+		String newRegistration = AskFor.registration();
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE car SET carRegistration = " + newRegistration.toUpperCase() + " WHERE UPPER(carRegistration) = '" + registration.toUpperCase() + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+				try{
+					myConnectionToDB.disconnect();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		super.modifyRegistration(registration, newRegistration);
+	}
+	
+	public void modifyNumDoors(String registration) {
+		
+		int numDoors = AskFor.numDoors();
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE car SET numDoors = " + numDoors + " WHERE UPPER(car.carRegistration) = '" + registration.toUpperCase() + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+				try{
+					myConnectionToDB.disconnect();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
+	public void modifyTrunkCapacity(String registration) {
+		
+		int trunkCapacity = AskFor.trunkCapacity();
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE car SET trunkCapacity = " + trunkCapacity + " WHERE UPPER(car.carRegistration) = '" + registration.toUpperCase() + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+				try{
+					myConnectionToDB.disconnect();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

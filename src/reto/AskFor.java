@@ -199,12 +199,12 @@ public class AskFor {
 			if(correct == false) {
 				System.out.println("*The price must be between 0 and 3.000.000!");
 			}
-			System.out.println("\nEnter price:");
+			System.out.println("\nEnter price (€):");
 			priceString = Console.readString();
 			
 			while(!priceString.matches("[0-9]+")){
 				System.out.println("*Only numbers!");
-				System.out.println("\nEnter price:");
+				System.out.println("\nEnter price (€):");
 				priceString = Console.readString();
 			}
 			price = Integer.parseInt(priceString);
@@ -367,7 +367,7 @@ public class AskFor {
 		return answer;
 	}
 	
-	public static char allOrColor() {
+	public static char allOrColour() {
 		
 		char answer;
 		boolean correct = true;

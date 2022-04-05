@@ -76,7 +76,7 @@ public class Concessionaire {
 	
 	public static void show() {
 		
-		char answer = AskFor.allOrColor();
+		char answer = AskFor.allOrColour();
 		
 		String colour = null;
 		if(Character.toLowerCase(answer) == 'c') {
@@ -99,12 +99,19 @@ public class Concessionaire {
 				System.out.println("\nNo cars to show!");
 			}else {
 				do {
+					String painted;
+					if(myResultSetCar.getInt("painted") == 0) {
+						painted = "No";
+					}else {
+						painted = "Yes";
+					}
 					StringBuilder sb = new StringBuilder();
 					sb.append("\nSeries:\t\t" + myResultSetCar.getString("brand") + " " + myResultSetCar.getString("model") + " " + myResultSetCar.getInt("year"));
 					sb.append("\nRegistration:\t" + myResultSetCar.getString("registration"));
 					sb.append("\nFrame number:\t" + myResultSetCar.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetCar.getString("colour"));
-					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " ï¿½");
+					sb.append("\nPainted:\t" + painted);
+					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " €");
 					sb.append("\nDoor number:\t" + myResultSetCar.getInt("numDoors"));
 					sb.append("\nTrunk capacity:\t" + myResultSetCar.getInt("trunkCapacity") + " l");
 					System.out.println(sb.toString());
@@ -122,12 +129,19 @@ public class Concessionaire {
 				System.out.println("\nNo trucks to show!");
 			}else {
 				do {
+					String painted;
+					if(myResultSetTruck.getInt("price") == 0) {
+						painted = "No";
+					}else {
+						painted = "Yes";
+					}
 					StringBuilder sb = new StringBuilder();
 					sb.append("\nSeries:\t\t" + myResultSetTruck.getString("brand") + " " + myResultSetTruck.getString("model") + " " + myResultSetTruck.getInt("year"));
 					sb.append("\nRegistration:\t" + myResultSetTruck.getString("registration"));
 					sb.append("\nFrame number:\t" + myResultSetTruck.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetTruck.getString("colour"));
-					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " ï¿½");
+					sb.append("\nPainted:\t" + painted);
+					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " €");
 					sb.append("\nLoad:\t\t" + myResultSetTruck.getInt("load"));
 					sb.append("\nMerchan. type:\t" + myResultSetTruck.getString("merchandiseType"));
 					System.out.println(sb.toString());
@@ -331,9 +345,9 @@ public class Concessionaire {
 					myConnectionToDB2 = new ConnectionToDB();
 					ResultSet myResultSetRegistration2 = myConnectionToDB2.myQuery("SELECT carRegistration FROM car WHERE UPPER(carRegistration) = '" + registration.toUpperCase() + "'");
 					if (myResultSetRegistration2.next()) { 
-						new Car().modify(serieNum, registration);
+						new Car().modifyMenu(serieNum, registration);
 					}else {
-						new Truck().modify(serieNum, registration);
+						new Truck().modifyMenu(serieNum, registration);
 					}
 				}else {
 					exists = false;
@@ -358,6 +372,7 @@ public class Concessionaire {
 			}
 		} while (correct == false || exists == false);
 		
+		System.out.println("\nVehicle data succesfully modified!");
 		System.out.println("\n");
 		menu();
 	}

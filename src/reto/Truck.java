@@ -56,7 +56,7 @@ public class Truck extends Vehicle {
 		super.sell(serieNum, registration);
 	}
 	
-	public void modify(int serieNum, String registration) {
+	public void modifyMenu(int serieNum, String registration) {
 		
 	}
 }

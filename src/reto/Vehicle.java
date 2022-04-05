@@ -103,5 +103,73 @@ public abstract class Vehicle extends Series{
 		
 		System.out.println("\nVehicle succesfully repainted!");
 	}
+
+	public void modifyRegistration(String registration, String newRegistration) {
+		
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE vehicle SET registration = " + newRegistration.toUpperCase() + " WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+				try{
+					myConnectionToDB.disconnect();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+		
+	public void modifyNumFrame(String registration) {
+		
+		String numFrame = AskFor.numFrame();
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE vehicle SET numFrame = " + numFrame + " WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+				try{
+					myConnectionToDB.disconnect();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
+	public void modifyPrice(String registration) {
+		
+		int price = AskFor.price();
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE vehicle SET price = " + price + " WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+				try{
+					myConnectionToDB.disconnect();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 }
