@@ -31,6 +31,7 @@ public abstract class Vehicle extends Series{
 		}
 	}
 	
+	
 	public void sell(int serieNum, String registration) {
 		
 		ConnectionToDB myConnectionToDB = null;
@@ -103,14 +104,16 @@ public abstract class Vehicle extends Series{
 		
 		System.out.println("\nVehicle succesfully repainted!");
 	}
-
-	public void modifyRegistration(String registration, String newRegistration) {
+	
+	public void modifyBrand(int serieNum, String registration) {
+		
+		super.modifyBrand(serieNum, registration);
 		
 		ConnectionToDB myConnectionToDB = null;
 		
 		try {
 			myConnectionToDB = new ConnectionToDB();
-			myConnectionToDB.myExeQuery("UPDATE vehicle SET registration = " + newRegistration.toUpperCase() + " WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+			myConnectionToDB.myExeQuery("UPDATE vehicle SET serieNum = " + super.getSerieNum() + " WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,7 +128,55 @@ public abstract class Vehicle extends Series{
 			}
 		}
 	}
+	
+	public void modifyModel(int serieNum, String registration) {
 		
+		super.modifyModel(serieNum, registration);
+		
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE vehicle SET serieNum = " + super.getSerieNum() + " WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+				try{
+					myConnectionToDB.disconnect();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void modifyYear(int serieNum, String registration) {
+		
+		super.modifyYear(serieNum, registration);
+		
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			myConnectionToDB.myExeQuery("UPDATE vehicle SET serieNum = " + super.getSerieNum() + " WHERE UPPER(registration) = '" + registration.toUpperCase() + "'");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+				try{
+					myConnectionToDB.disconnect();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	public void modifyNumFrame(String registration) {
 		
 		String numFrame = AskFor.numFrame();

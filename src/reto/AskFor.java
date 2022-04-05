@@ -199,12 +199,12 @@ public class AskFor {
 			if(correct == false) {
 				System.out.println("*The price must be between 0 and 3.000.000!");
 			}
-			System.out.println("\nEnter price (€):");
+			System.out.println("\nEnter price (â‚¬):");
 			priceString = Console.readString();
 			
 			while(!priceString.matches("[0-9]+")){
 				System.out.println("*Only numbers!");
-				System.out.println("\nEnter price (€):");
+				System.out.println("\nEnter price (â‚¬):");
 				priceString = Console.readString();
 			}
 			price = Integer.parseInt(priceString);
@@ -378,6 +378,26 @@ public class AskFor {
 			System.out.println("\nEnter showing option: ('a' for showing all vehicles or 'c' to enter a color filter)");
 			answer = Console.readChar();
 			if(Character.toLowerCase(answer) == 'a' || Character.toLowerCase(answer) == 'c') {
+				correct = true;
+			}else {
+				correct = false;
+			}
+		} while (correct == false);	
+		
+		return answer;
+	}
+	
+	public static char allSeriesOrThisVehicle() {
+		
+		char answer;
+		boolean correct = true;
+		do {
+			if(correct == false) {
+				System.out.println("*Enter 'a' or 'o'!");
+			}
+			System.out.println("\n*There are many vehicles of this series!\n\nEnter 'a' for modifying data of all the vehicles of the same series or 'o' for only this vehicle:");
+			answer = Console.readChar();
+			if(Character.toLowerCase(answer) == 'a' || Character.toLowerCase(answer) == 'o') {
 				correct = true;
 			}else {
 				correct = false;

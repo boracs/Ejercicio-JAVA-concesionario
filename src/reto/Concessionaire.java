@@ -111,7 +111,7 @@ public class Concessionaire {
 					sb.append("\nFrame number:\t" + myResultSetCar.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetCar.getString("colour"));
 					sb.append("\nPainted:\t" + painted);
-					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " €");
+					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " â‚¬");
 					sb.append("\nDoor number:\t" + myResultSetCar.getInt("numDoors"));
 					sb.append("\nTrunk capacity:\t" + myResultSetCar.getInt("trunkCapacity") + " l");
 					System.out.println(sb.toString());
@@ -141,8 +141,8 @@ public class Concessionaire {
 					sb.append("\nFrame number:\t" + myResultSetTruck.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetTruck.getString("colour"));
 					sb.append("\nPainted:\t" + painted);
-					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " €");
-					sb.append("\nLoad:\t\t" + myResultSetTruck.getInt("load"));
+					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " â‚¬");
+					sb.append("\nLoad:\t\t" + myResultSetTruck.getInt("load") + " kg.");
 					sb.append("\nMerchan. type:\t" + myResultSetTruck.getString("merchandiseType"));
 					System.out.println(sb.toString());
 				} while(myResultSetTruck.next());
@@ -225,12 +225,14 @@ public class Concessionaire {
 					serieNum = myResultSetRegistration.getInt("serieNum");
 					registration = myResultSetRegistration.getString("registration");
 					myConnectionToDB2 = new ConnectionToDB();
+					
 					ResultSet myResultSetRegistration2 = myConnectionToDB2.myQuery("SELECT carRegistration FROM car WHERE UPPER(carRegistration) = '" + registration.toUpperCase() + "'");
-					if (myResultSetRegistration2.next()) { 
+					if (myResultSetRegistration2.next()) {	
 						new Car().sell(serieNum, registration);
 					}else {
 						new Truck().sell(serieNum, registration);
 					}
+					
 				}else {
 					exists = false;
 				}
@@ -343,12 +345,14 @@ public class Concessionaire {
 					serieNum = myResultSetRegistration.getInt("serieNum");
 					registration = myResultSetRegistration.getString("registration");
 					myConnectionToDB2 = new ConnectionToDB();
+					
 					ResultSet myResultSetRegistration2 = myConnectionToDB2.myQuery("SELECT carRegistration FROM car WHERE UPPER(carRegistration) = '" + registration.toUpperCase() + "'");
 					if (myResultSetRegistration2.next()) { 
 						new Car().modifyMenu(serieNum, registration);
 					}else {
 						new Truck().modifyMenu(serieNum, registration);
 					}
+					
 				}else {
 					exists = false;
 				}
