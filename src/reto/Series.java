@@ -286,4 +286,5 @@ public abstract class Series {
 			deleteEqualSeries(brand, model, year);
 		}
 	}
+
 }

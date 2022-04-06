@@ -1,5 +1,6 @@
 package reto;
 
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -111,7 +112,7 @@ public class Concessionaire {
 					sb.append("\nFrame number:\t" + myResultSetCar.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetCar.getString("colour"));
 					sb.append("\nPainted:\t" + painted);
-					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " â‚¬");
+					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " €");
 					sb.append("\nDoor number:\t" + myResultSetCar.getInt("numDoors"));
 					sb.append("\nTrunk capacity:\t" + myResultSetCar.getInt("trunkCapacity") + " l");
 					System.out.println(sb.toString());
@@ -141,7 +142,7 @@ public class Concessionaire {
 					sb.append("\nFrame number:\t" + myResultSetTruck.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetTruck.getString("colour"));
 					sb.append("\nPainted:\t" + painted);
-					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " â‚¬");
+					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " €");
 					sb.append("\nLoad:\t\t" + myResultSetTruck.getInt("load") + " kg.");
 					sb.append("\nMerchan. type:\t" + myResultSetTruck.getString("merchandiseType"));
 					System.out.println(sb.toString());
@@ -383,6 +384,34 @@ public class Concessionaire {
 	
 	public static void checkSales() {
 		
+		Date initialDate = AskFor.initialDate();
+		Date finalDate = AskFor.finalDate();
+		
+		ConnectionToDB myConnectionToDB = null;
+
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			ResultSet myResultSet = myConnectionToDB.myQuery("SELECT * FROM history WHERE event = 'SOLD' AND date BETWEEN '" + initialDate + "' AND '" + finalDate);
+			while(myResultSet.next()) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(myResultSet.getString("registration") + " ");
+				sb.append(myResultSet.getString("date"));
+				System.out.println(sb.toString());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+                try{
+                	myConnectionToDB.disconnect();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+			
+		}
 	}
 	
 }

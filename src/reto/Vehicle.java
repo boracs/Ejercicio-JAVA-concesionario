@@ -15,7 +15,7 @@ public abstract class Vehicle extends Series{
 		
 		try {
 			myConnectionToDB = new ConnectionToDB();
-			myConnectionToDB.myExeQuery("INSERT INTO vehicle VALUES (" + super.getSerieNum() + ", '" + registration + "', '" + numFrame + "', '" + colour.toLowerCase() + "', " + numOfSeats + ", " + price + ", 0, CURDATE())");
+			myConnectionToDB.myExeQuery("INSERT INTO vehicle VALUES (" + super.getSerieNum() + ", '" + registration.toUpperCase() + "', '" + numFrame + "', '" + colour.toLowerCase() + "', " + numOfSeats + ", " + price + ", 0)");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -30,7 +30,6 @@ public abstract class Vehicle extends Series{
             }
 		}
 	}
-	
 	
 	public void sell(int serieNum, String registration) {
 		

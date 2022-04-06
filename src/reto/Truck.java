@@ -150,7 +150,7 @@ public class Truck extends Vehicle {
 		
 		try {
 			myConnectionToDB = new ConnectionToDB();
-			myConnectionToDB.myExeQuery("UPDATE truck SET load = " + load + " WHERE truckRegistration = '" + registration.toUpperCase() + "'");
+			myConnectionToDB.myExeQuery("UPDATE truck SET truck.load = " + load + " WHERE truckRegistration = '" + registration.toUpperCase() + "'");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -188,4 +188,5 @@ public class Truck extends Vehicle {
 			}
 		}
 	}
+
 }

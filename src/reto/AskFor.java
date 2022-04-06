@@ -1,6 +1,9 @@
 package reto;
 
+import java.util.Date;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class AskFor {
@@ -199,12 +202,12 @@ public class AskFor {
 			if(correct == false) {
 				System.out.println("*The price must be between 0 and 3.000.000!");
 			}
-			System.out.println("\nEnter price (â‚¬):");
+			System.out.println("\nEnter price (€):");
 			priceString = Console.readString();
 			
 			while(!priceString.matches("[0-9]+")){
 				System.out.println("*Only numbers!");
-				System.out.println("\nEnter price (â‚¬):");
+				System.out.println("\nEnter price (€):");
 				priceString = Console.readString();
 			}
 			price = Integer.parseInt(priceString);
@@ -326,7 +329,6 @@ public class AskFor {
 		return merchandiseType;
 	}
 	
-	
 	public static char carOrTruck() {
 		
 		char answer;
@@ -427,4 +429,66 @@ public class AskFor {
 		return fileName;
 	}
 
+	public static Date initialDate() {
+		
+		Date initialDate = null;
+		String initialDateString;
+		DateFormat formatter = new SimpleDateFormat("YYYY-MM-DD");
+		boolean correct = true;
+		do {
+			if(correct == false) {
+				System.out.println("*YYYY-MM-DD!");
+			}
+			System.out.println("\nEnter initial date (YYYY-MM-DD):");
+			initialDateString = Console.readString();
+			if(isValid(initialDateString)) {
+				correct = true;
+			}else {
+				correct = false;
+			}
+		} while (correct == false);
+		try {
+			initialDate = formatter.parse(initialDateString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return initialDate;
+	}
+	
+	public static Date finalDate() {
+		
+		Date finalDate = null;
+		String finalDateString;
+		DateFormat formatter = new SimpleDateFormat("YYYY-MM-DD");
+		boolean correct = true;
+		do {
+			if(correct == false) {
+				System.out.println("*YYYY-MM-DD!");
+			}
+			System.out.println("\nEnter final date (YYYY-MM-DD):");
+			finalDateString = Console.readString();
+			if(isValid(finalDateString)) {
+				correct = true;
+			}else {
+				correct = false;
+			}
+		} while (correct == false);
+		try {
+			finalDate = formatter.parse(finalDateString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return finalDate;
+	}
+	
+	public static boolean isValid(String dateStr) {
+        DateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+        sdf.setLenient(false);
+        try {
+            sdf.parse(dateStr);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }
