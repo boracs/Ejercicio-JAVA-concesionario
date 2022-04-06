@@ -2,7 +2,7 @@ package reto;
 
 import java.util.Date;
 import java.sql.ResultSet;
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -202,12 +202,12 @@ public class AskFor {
 			if(correct == false) {
 				System.out.println("*The price must be between 0 and 3.000.000!");
 			}
-			System.out.println("\nEnter price (€):");
+			System.out.println("\nEnter price (ï¿½):");
 			priceString = Console.readString();
 			
 			while(!priceString.matches("[0-9]+")){
 				System.out.println("*Only numbers!");
-				System.out.println("\nEnter price (€):");
+				System.out.println("\nEnter price (ï¿½):");
 				priceString = Console.readString();
 			}
 			price = Integer.parseInt(priceString);
@@ -429,11 +429,9 @@ public class AskFor {
 		return fileName;
 	}
 
-	public static Date initialDate() {
+	public static String initialDate() {
 		
-		Date initialDate = null;
 		String initialDateString;
-		DateFormat formatter = new SimpleDateFormat("YYYY-MM-DD");
 		boolean correct = true;
 		do {
 			if(correct == false) {
@@ -441,54 +439,53 @@ public class AskFor {
 			}
 			System.out.println("\nEnter initial date (YYYY-MM-DD):");
 			initialDateString = Console.readString();
-			if(isValid(initialDateString)) {
+			if(checkDateFormat(initialDateString)) {
 				correct = true;
 			}else {
 				correct = false;
 			}
 		} while (correct == false);
-		try {
-			initialDate = formatter.parse(initialDateString);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		return initialDate;
+
+		return initialDateString;
 	}
 	
-	public static Date finalDate() {
+	public static String finalDate() {
 		
-		Date finalDate = null;
 		String finalDateString;
-		DateFormat formatter = new SimpleDateFormat("YYYY-MM-DD");
 		boolean correct = true;
 		do {
 			if(correct == false) {
-				System.out.println("*YYYY-MM-DD!");
+				System.out.println("*Enter YYYY-MM-DD!");
 			}
 			System.out.println("\nEnter final date (YYYY-MM-DD):");
 			finalDateString = Console.readString();
-			if(isValid(finalDateString)) {
+			if(checkDateFormat(finalDateString)) {
 				correct = true;
 			}else {
 				correct = false;
 			}
 		} while (correct == false);
-		try {
-			finalDate = formatter.parse(finalDateString);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return finalDate;
+
+		return finalDateString;
 	}
 	
-	public static boolean isValid(String dateStr) {
-        DateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
-        sdf.setLenient(false);
-        try {
-            sdf.parse(dateStr);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
+	public static boolean checkDateFormat(String strDate) {
+		
+		if (strDate.trim().equals("")) {
+		    return false;
+		} else {
+
+		    SimpleDateFormat sdfrmt = new SimpleDateFormat("YYYY-mm-dd");
+		    sdfrmt.setLenient(false);
+
+		    try {
+		        @SuppressWarnings("unused")
+				Date javaDate = sdfrmt.parse(strDate); 
+		    } catch (ParseException e){
+		        return false;
+		    }
+		    return true;
+		}
+	}
+
 }

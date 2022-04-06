@@ -76,55 +76,6 @@ public abstract class Series {
 		System.out.println("\nVehicle succesfully removed from database!");
 	}
 	
-	public void deleteEqualSeries(String brand, String model, int year) {
-		
-		ConnectionToDB myConnectionToDB = null;
-		
-		try {
-			myConnectionToDB = new ConnectionToDB();
-			//comprobamos si ahora hay dos series iguales
-			ResultSet myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM series WHERE brand = '" + brand + "' AND model = '" + model + "' AND year = " + year);
-			myResultSet.next();
-			// aunque haya más de uno, el vehiculo que estabamos modificando va a coger el valor serieNum de la primera vez que sale la serie
-			this.serieNum = myResultSet.getInt("serieNum");
-			
-			// para los siguientes resultados de vehiculos que pertenecen series iguales, asignaremos el primer serieNum encontrado, y borraremos la serie que esta repetida
-			while (myResultSet.next()) {
-				ConnectionToDB myConnectionToDB2 = null;
-				
-				try {
-					myConnectionToDB2 = new ConnectionToDB();
-					myConnectionToDB2.myExeQuery("UPDATE vehicle SET serieNum = " + this.serieNum + " WHERE serieNum = " + myResultSet.getInt("serieNum"));
-					myConnectionToDB2.myExeQuery("DELETE FROM series WHERE serieNum = " + myResultSet.getInt("serieNum"));
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-					
-				} finally {
-					if(myConnectionToDB2 != null){
-						try{
-							myConnectionToDB2.disconnect();
-						} catch (Exception e){
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		} finally {
-			if(myConnectionToDB != null){
-	            try{
-	            	myConnectionToDB.disconnect();
-	            } catch (Exception e){
-	                e.printStackTrace();
-	            }
-	        }	
-		}
-	}
-	
 	public void modifyBrand(int serieNum, String registration) {
 		
 		String brand = AskFor.brand();
@@ -284,6 +235,55 @@ public abstract class Series {
 			}	
 			
 			deleteEqualSeries(brand, model, year);
+		}
+	}
+
+	public void deleteEqualSeries(String brand, String model, int year) {
+		
+		ConnectionToDB myConnectionToDB = null;
+		
+		try {
+			myConnectionToDB = new ConnectionToDB();
+			//comprobamos si ahora hay dos series iguales
+			ResultSet myResultSet = myConnectionToDB.myQuery("SELECT serieNum FROM series WHERE brand = '" + brand + "' AND model = '" + model + "' AND year = " + year);
+			myResultSet.next();
+			// aunque haya más de uno, el vehiculo que estabamos modificando va a coger el valor serieNum de la primera vez que sale la serie
+			this.serieNum = myResultSet.getInt("serieNum");
+			
+			// para los siguientes resultados de vehiculos que pertenecen series iguales, asignaremos el primer serieNum encontrado, y borraremos la serie que esta repetida
+			while (myResultSet.next()) {
+				ConnectionToDB myConnectionToDB2 = null;
+				
+				try {
+					myConnectionToDB2 = new ConnectionToDB();
+					myConnectionToDB2.myExeQuery("UPDATE vehicle SET serieNum = " + this.serieNum + " WHERE serieNum = " + myResultSet.getInt("serieNum"));
+					myConnectionToDB2.myExeQuery("DELETE FROM series WHERE serieNum = " + myResultSet.getInt("serieNum"));
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					
+				} finally {
+					if(myConnectionToDB2 != null){
+						try{
+							myConnectionToDB2.disconnect();
+						} catch (Exception e){
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			if(myConnectionToDB != null){
+	            try{
+	            	myConnectionToDB.disconnect();
+	            } catch (Exception e){
+	                e.printStackTrace();
+	            }
+	        }	
 		}
 	}
 
