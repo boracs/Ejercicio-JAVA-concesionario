@@ -202,12 +202,12 @@ public class AskFor {
 			if(correct == false) {
 				System.out.println("*The price must be between 0 and 3.000.000!");
 			}
-			System.out.println("\nEnter price (�):");
+			System.out.println("\nEnter price (\u20ac):");
 			priceString = Console.readString();
 			
 			while(!priceString.matches("[0-9]+")){
 				System.out.println("*Only numbers!");
-				System.out.println("\nEnter price (�):");
+				System.out.println("\nEnter price (\u20ac):");
 				priceString = Console.readString();
 			}
 			price = Integer.parseInt(priceString);

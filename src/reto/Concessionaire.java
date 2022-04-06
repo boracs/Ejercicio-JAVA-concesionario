@@ -88,7 +88,7 @@ public class Concessionaire {
 		try {
 			myConnectionToDB = new ConnectionToDB();
 			
-			System.out.println("\nCARS");
+			System.out.println("\n==> CARS");
 			ResultSet myResultSetCar;
 			if(Character.toLowerCase(answer) == 'c') {
 				myResultSetCar = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, car WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = car.carRegistration AND LOWER(vehicle.colour) = '" + colour.toLowerCase() + "'");
@@ -105,21 +105,27 @@ public class Concessionaire {
 					}else {
 						painted = "Yes";
 					}
+					String trunkCapacity;
+					if(myResultSetCar.getInt("trunkCapacity") == 0) {
+						trunkCapacity = "none";
+					}else {
+						trunkCapacity = myResultSetCar.getInt("trunkCapacity") + " l";
+					}
 					StringBuilder sb = new StringBuilder();
-					sb.append("\nSeries:\t\t" + myResultSetCar.getString("brand") + " " + myResultSetCar.getString("model") + " " + myResultSetCar.getInt("year"));
+					sb.append("\nSeries:\t\t" + myResultSetCar.getString("brand") + " " + myResultSetCar.getString("model") + " (" + myResultSetCar.getInt("year") + ")");
 					sb.append("\nRegistration:\t" + myResultSetCar.getString("registration"));
 					sb.append("\nFrame number:\t" + myResultSetCar.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetCar.getString("colour"));
 					sb.append("\nPainted:\t" + painted);
-					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " �");
+					sb.append("\nPrice:\t\t" + myResultSetCar.getInt("price") + " \u20ac");
 					sb.append("\nDoor number:\t" + myResultSetCar.getInt("numDoors"));
-					sb.append("\nTrunk capacity:\t" + myResultSetCar.getInt("trunkCapacity") + " l");
+					sb.append("\nTrunk capacity:\t" + trunkCapacity);
 					System.out.println(sb.toString());
 				} while(myResultSetCar.next());
 			}
 			
 			ResultSet myResultSetTruck;
-			System.out.println("\nTRUCKS");
+			System.out.println("\n==> TRUCKS");
 			if(Character.toLowerCase(answer) == 'c') {
 				myResultSetTruck = myConnectionToDB.myQuery("SELECT * FROM series, vehicle, truck WHERE series.serieNum = vehicle.serieNum AND vehicle.registration = truck.truckRegistration AND LOWER(vehicle.colour) = '" + colour.toLowerCase() + "'");
 			}else {
@@ -136,13 +142,13 @@ public class Concessionaire {
 						painted = "Yes";
 					}
 					StringBuilder sb = new StringBuilder();
-					sb.append("\nSeries:\t\t" + myResultSetTruck.getString("brand") + " " + myResultSetTruck.getString("model") + " " + myResultSetTruck.getInt("year"));
+					sb.append("\nSeries:\t\t" + myResultSetTruck.getString("brand") + " " + myResultSetTruck.getString("model") + " (" + myResultSetTruck.getInt("year") + ")");
 					sb.append("\nRegistration:\t" + myResultSetTruck.getString("registration"));
 					sb.append("\nFrame number:\t" + myResultSetTruck.getString("numFrame"));
 					sb.append("\nColour:\t\t" + myResultSetTruck.getString("colour"));
 					sb.append("\nPainted:\t" + painted);
-					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " �");
-					sb.append("\nLoad:\t\t" + myResultSetTruck.getInt("load") + " kg.");
+					sb.append("\nPrice:\t\t" + myResultSetTruck.getInt("price") + " \u20ac");
+					sb.append("\nLoad:\t\t" + myResultSetTruck.getInt("load") + " kg");
 					sb.append("\nMerchan. type:\t" + myResultSetTruck.getString("merchandiseType"));
 					System.out.println(sb.toString());
 				} while(myResultSetTruck.next());
@@ -391,7 +397,7 @@ public class Concessionaire {
 		try {
 			myConnectionToDB = new ConnectionToDB();
 			ResultSet myResultSet = myConnectionToDB.myQuery("SELECT * FROM history WHERE event = 'SOLD' AND date BETWEEN '" + initialDate + "' AND '" + finalDate + "'");
-			System.out.println("\n==> SALES (" + initialDate + " to " + finalDate + ")");
+			System.out.println("\n==> SALES");
 			while(myResultSet.next()) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("\nRegistration:\t" + myResultSet.getString("registration"));
