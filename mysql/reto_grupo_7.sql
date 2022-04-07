@@ -1,15 +1,15 @@
-CREATE DATABASE  IF NOT EXISTS `reto_grupo_7` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `reto_grupo_7` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `reto_grupo_7`;
--- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
 -- Host: localhost    Database: reto_grupo_7
 -- ------------------------------------------------------
--- Server version	8.0.22
+-- Server version	5.6.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -17,59 +17,6 @@ USE `reto_grupo_7`;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `car`
---
-
-DROP TABLE IF EXISTS `car`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `car` (
-  `carRegistration` varchar(10) NOT NULL,
-  `numDoors` int unsigned NOT NULL,
-  `trunkCapacity` int unsigned NOT NULL,
-  PRIMARY KEY (`carRegistration`),
-  UNIQUE KEY `idcar_UNIQUE` (`carRegistration`),
-  CONSTRAINT `carRegistration FK` FOREIGN KEY (`carRegistration`) REFERENCES `vehicle` (`registration`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `car`
---
-
-LOCK TABLES `car` WRITE;
-/*!40000 ALTER TABLE `car` DISABLE KEYS */;
-INSERT INTO `car` VALUES ('12345',2,120),('310ALP',2,0),('3333GT',2,120),('3434GTR',2,150),('4040FFF',2,50),('4040FGT',2,0),('M3E30BMW',2,180),('MB300SLR',2,80);
-/*!40000 ALTER TABLE `car` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `history`
---
-
-DROP TABLE IF EXISTS `history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `history` (
-  `idhistory` int unsigned NOT NULL AUTO_INCREMENT,
-  `event` varchar(45) NOT NULL,
-  `registration` varchar(10) NOT NULL,
-  `date` date NOT NULL,
-  PRIMARY KEY (`idhistory`),
-  UNIQUE KEY `idhistory_UNIQUE` (`idhistory`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `history`
---
-
-LOCK TABLES `history` WRITE;
-/*!40000 ALTER TABLE `history` DISABLE KEYS */;
-INSERT INTO `history` VALUES (21,'BOUGHT','ABCDEF','2022-04-06'),(22,'PAINTED','ABCDEF','2022-04-06'),(23,'SOLD','ABCDEF','2022-04-06'),(24,'BOUGHT','MB300SLR','2022-04-07');
-/*!40000 ALTER TABLE `history` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `series`
@@ -77,12 +24,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `series`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `series` (
-  `serieNum` int unsigned NOT NULL AUTO_INCREMENT,
+  `serieNum` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `brand` varchar(45) NOT NULL,
   `model` varchar(45) NOT NULL,
-  `year` int unsigned NOT NULL,
+  `year` int(10) unsigned NOT NULL,
   PRIMARY KEY (`serieNum`),
   UNIQUE KEY `serieNum_UNIQUE` (`serieNum`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
@@ -98,32 +45,6 @@ INSERT INTO `series` VALUES (4,'Nissan','Skyline R34',1999),(7,'Ford','GT40',196
 /*!40000 ALTER TABLE `series` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `truck`
---
-
-DROP TABLE IF EXISTS `truck`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `truck` (
-  `truckRegistration` varchar(10) NOT NULL,
-  `load` int unsigned NOT NULL,
-  `merchandiseType` varchar(1) NOT NULL,
-  PRIMARY KEY (`truckRegistration`),
-  UNIQUE KEY `idtruck_UNIQUE` (`truckRegistration`),
-  CONSTRAINT `truckRegistration FK` FOREIGN KEY (`truckRegistration`) REFERENCES `vehicle` (`registration`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `truck`
---
-
-LOCK TABLES `truck` WRITE;
-/*!40000 ALTER TABLE `truck` DISABLE KEYS */;
-INSERT INTO `truck` VALUES ('VW00CAL',400,'A'),('VWT1950',700,'A');
-/*!40000 ALTER TABLE `truck` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `vehicle`
@@ -131,14 +52,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `vehicle`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `vehicle` (
-  `serieNum` int unsigned NOT NULL,
+  `serieNum` int(10) unsigned NOT NULL,
   `registration` varchar(10) NOT NULL,
   `numFrame` varchar(17) NOT NULL,
   `colour` varchar(45) NOT NULL,
-  `numOfSeats` int unsigned NOT NULL,
-  `price` int unsigned NOT NULL,
+  `numOfSeats` int(10) unsigned NOT NULL,
+  `price` int(10) unsigned NOT NULL,
   `painted` tinyint(1) NOT NULL,
   PRIMARY KEY (`registration`),
   UNIQUE KEY `id_vehicle_UNIQUE` (`registration`),
@@ -156,13 +77,101 @@ LOCK TABLES `vehicle` WRITE;
 INSERT INTO `vehicle` VALUES (15,'12345','12345678901234567','grey and blue',2,95000,1),(8,'310ALP','98765432101234567','red',2,45000,0),(15,'3333GT','12345678901234567','dark grey',2,150000,0),(4,'3434GTR','12345678901234567','blue',2,110000,0),(11,'4040FFF','98765432101234567','ferrari red',2,1500000,0),(7,'4040FGT','09876543211234567','red and blue',2,2000000,0),(10,'M3E30BMW','12345678901234567','white',5,75000,0),(38,'MB300SLR','863ghy479064rtujs','grey',2,1200000,0),(25,'VW00CAL','lkgtrvg2678452gt9','orange',7,70000,1),(14,'VWT1950','lkgtrvg2678452gt9','pink',7,180000,1);
 /*!40000 ALTER TABLE `vehicle` ENABLE KEYS */;
 UNLOCK TABLES;
-ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8mb4 ;
+
+
+--
+-- Table structure for table `car`
+--
+
+DROP TABLE IF EXISTS `car`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `car` (
+  `carRegistration` varchar(10) NOT NULL,
+  `numDoors` int(10) unsigned NOT NULL,
+  `trunkCapacity` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`carRegistration`),
+  UNIQUE KEY `idcar_UNIQUE` (`carRegistration`),
+  CONSTRAINT `carRegistration FK` FOREIGN KEY (`carRegistration`) REFERENCES `vehicle` (`registration`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `car`
+--
+
+LOCK TABLES `car` WRITE;
+/*!40000 ALTER TABLE `car` DISABLE KEYS */;
+INSERT INTO `car` VALUES ('12345',2,120),('310ALP',2,0),('3333GT',2,120),('3434GTR',2,150),('4040FFF',2,50),('4040FGT',2,0),('M3E30BMW',2,180),('MB300SLR',2,80);
+/*!40000 ALTER TABLE `car` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `truck`
+--
+
+DROP TABLE IF EXISTS `truck`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `truck` (
+  `truckRegistration` varchar(10) NOT NULL,
+  `load` int(10) unsigned NOT NULL,
+  `merchandiseType` varchar(1) NOT NULL,
+  PRIMARY KEY (`truckRegistration`),
+  UNIQUE KEY `idtruck_UNIQUE` (`truckRegistration`),
+  CONSTRAINT `truckRegistration FK` FOREIGN KEY (`truckRegistration`) REFERENCES `vehicle` (`registration`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `truck`
+--
+
+LOCK TABLES `truck` WRITE;
+/*!40000 ALTER TABLE `truck` DISABLE KEYS */;
+INSERT INTO `truck` VALUES ('VW00CAL',400,'A'),('VWT1950',700,'A');
+/*!40000 ALTER TABLE `truck` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `history`
+--
+
+DROP TABLE IF EXISTS `history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `history` (
+  `idhistory` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `event` varchar(45) NOT NULL,
+  `registration` varchar(10) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`idhistory`),
+  UNIQUE KEY `idhistory_UNIQUE` (`idhistory`),
+  KEY `registration FK_idx` (`registration`),
+  CONSTRAINT `registration FK` FOREIGN KEY (`registration`) REFERENCES `vehicle` (`registration`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `history`
+--
+
+LOCK TABLES `history` WRITE;
+/*!40000 ALTER TABLE `history` DISABLE KEYS */;
+INSERT INTO `history` VALUES (21,'BOUGHT','ABCDEF','2022-04-06'),(22,'PAINTED','ABCDEF','2022-04-06'),(23,'SOLD','ABCDEF','2022-04-06'),(24,'BOUGHT','MB300SLR','2022-04-07');
+/*!40000 ALTER TABLE `history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -179,13 +188,13 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8 COLLATE utf8_general_ci ;
-ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8mb4 ;
+ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -204,13 +213,13 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8 COLLATE utf8_general_ci ;
-ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8mb4 ;
+ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -237,4 +246,4 @@ ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-07 12:13:46
+-- Dump completed on 2022-04-07 20:00:50

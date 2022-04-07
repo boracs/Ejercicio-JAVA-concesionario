@@ -1,6 +1,8 @@
 package reto;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -413,9 +415,12 @@ public class AskFor {
 		
 		String fileName;
 		boolean correct = true;
+		boolean specialChars = false;
 		do {
 			if(correct == false) {
 				System.out.println("*The file name must have 1-45 characters!");
+			}else if(specialChars == true) {
+				System.out.println("*No especial characters!");
 			}
 			System.out.println("\nEnter file name (without extension):");
 			fileName = Console.readString();
@@ -424,7 +429,14 @@ public class AskFor {
 			}else {
 				correct = true;
 			}
-		} while (correct == false);
+			Pattern p = Pattern.compile("[^A-Za-z0-9_\\-]");
+		    Matcher m = p.matcher(fileName);
+		    if(m.find()) {
+		    	specialChars = true;
+		    }else {
+		    	specialChars = false;
+		    }
+		} while (correct == false || specialChars == true);
 		
 		return fileName;
 	}

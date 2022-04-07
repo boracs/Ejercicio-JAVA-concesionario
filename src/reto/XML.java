@@ -171,11 +171,11 @@ public class XML {
 				}
 				
 				Source source = new DOMSource(documento);
-				Result result = new StreamResult(new File(fileName + ".xml"));
+				Result result = new StreamResult(new File("history/" + fileName + ".xml"));
 				
 				Transformer transformer = TransformerFactory.newInstance().newTransformer();
 				transformer.transform(source, result);
-				
+								
 			} catch (SQLException e) {
 				e.printStackTrace();
 				
