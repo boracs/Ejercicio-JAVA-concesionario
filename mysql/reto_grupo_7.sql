@@ -1,4 +1,5 @@
-
+CREATE DATABASE  IF NOT EXISTS `reto_grupo_7` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `reto_grupo_7`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: reto_grupo_7
@@ -155,6 +156,71 @@ LOCK TABLES `vehicle` WRITE;
 INSERT INTO `vehicle` VALUES (15,'12345','12345678901234567','grey and blue',2,95000,1),(8,'310ALP','98765432101234567','red',2,45000,0),(15,'3333GT','12345678901234567','dark grey',2,150000,0),(4,'3434GTR','12345678901234567','blue',2,110000,0),(11,'4040FFF','98765432101234567','ferrari red',2,1500000,0),(7,'4040FGT','09876543211234567','red and blue',2,2000000,0),(10,'M3E30BMW','12345678901234567','white',5,75000,0),(25,'VW00CAL','lkgtrvg2678452gt9','orange',7,70000,1),(14,'VWT1950','lkgtrvg2678452gt9','pink',7,180000,1);
 /*!40000 ALTER TABLE `vehicle` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `vehicleIsBought` AFTER INSERT ON `vehicle` FOR EACH ROW BEGIN
+DECLARE s1 VARCHAR(10)character set utf8;
+DECLARE s2 VARCHAR(10) character set utf8;
+SET s1 = "BOUGHT";
+SET s2 =  NEW.registration;
+INSERT INTO history(event, registration, date) values(s1, s2, NOW());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `vehicleIsPainted` AFTER UPDATE ON `vehicle` FOR EACH ROW BEGIN
+DECLARE s1 VARCHAR(10)character set utf8;
+DECLARE s2 VARCHAR(10) character set utf8;
+IF (NEW.colour != OLD.colour OR NEW.painted != OLD.painted) THEN
+	SET s1 = "PAINTED";
+	SET s2 =  OLD.registration;
+	INSERT INTO history(event, registration, date) values(s1, s2, NOW());
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `vehicleIsSold` BEFORE DELETE ON `vehicle` FOR EACH ROW BEGIN
+DECLARE s1 VARCHAR(10)character set utf8;
+DECLARE s2 VARCHAR(10) character set utf8;
+SET s1 = "SOLD";
+SET s2 =  OLD.registration;
+INSERT INTO history(event, registration, date) values(s1, s2, NOW());
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -165,4 +231,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-06 14:21:34
+-- Dump completed on 2022-04-07  8:42:22
