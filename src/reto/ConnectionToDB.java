@@ -10,7 +10,7 @@ public class ConnectionToDB {
 	private Connection myConnection;
 	private final String path = "jdbc:mysql://localhost:3306/reto_grupo_7";
 	private final String user = "root";
-	private final String password = "";
+	private final String password = "root";
 	
 	@SuppressWarnings("finally")
 	public ResultSet myQuery(String myQuery) {
