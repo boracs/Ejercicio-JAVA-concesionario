@@ -1,0 +1,17 @@
+<!ELEMENT concessionaire (cars,trucks)>
+<!ELEMENT cars (car*)>
+<!ELEMENT car (brand,model,year,registration,numFrame,colour,numOfSeats,price,numDoors,trunkCapacity)>
+<!ELEMENT brand (#PCDATA)>
+<!ELEMENT model (#PCDATA)>
+<!ELEMENT year (#PCDATA)>
+<!ELEMENT registration (#PCDATA)>
+<!ELEMENT numFrame (#PCDATA)>
+<!ELEMENT colour (#PCDATA)>
+<!ELEMENT numOfSeats (#PCDATA)>
+<!ELEMENT price (#PCDATA)>
+<!ELEMENT numDoors (#PCDATA)>
+<!ELEMENT trunkCapacity (#PCDATA)>
+<!ELEMENT trucks (truck*)>
+<!ELEMENT truck (brand,model,year,registration,numFrame,colour,numOfSeats,price,load,merchandiseType)>
+<!ELEMENT load (#PCDATA)>
+<!ELEMENT merchandiseType (#PCDATA)>

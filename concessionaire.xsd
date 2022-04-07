@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="concessionaire">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="cars"/>
+        <xs:element ref="trucks"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="cars">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="car"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="trucks">
+    <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="truck"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="car">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="brand"/>
+        <xs:element ref="model"/>
+        <xs:element ref="year" minOccurs="1900"/>
+        <xs:element ref="registration"/>
+        <xs:element ref="numFrame"/>
+        <xs:element ref="colour"/>
+        <xs:element ref="numOfSeats" minOccurs="2" maxOccurs="5"/>
+        <xs:element ref="price" minOccurs="0" maxOccurs="3000000"/>
+        <xs:element ref="numDoors" minOccurs="2" maxOccurs="5"/>
+        <xs:element ref="trunkCapacity" minOccurs="0" maxOccurs="5000"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="brand" type="xs:string"/>
+
+  <xs:element name="model" type="xs:string"/>
+
+  <xs:element name="year" type="xs:integer"/>
+
+  <xs:element name="registration" type="xs:string"/>
+
+  <xs:element name="numFrame" type="xs:string"/>
+
+  <xs:element name="colour" type="xs:string"/>
+
+  <xs:element name="numOfSeats" type="xs:integer"/>
+
+  <xs:element name="price" type="xs:integer"/>
+
+  <xs:element name="numDoors" type="xs:integer"/>
+
+  <xs:element name="trunkCapacity" type="xs:integer"/>
+
+  <xs:element name="truck">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="brand"/>
+        <xs:element ref="model"/>
+        <xs:element ref="year" minOccurs="1900"/>
+        <xs:element ref="registration"/>
+        <xs:element ref="numFrame"/>
+        <xs:element ref="colour"/>
+        <xs:element ref="numOfSeats" minOccurs="2" maxOccurs="5"/>
+        <xs:element ref="price" minOccurs="0" maxOccurs="3000000"/>
+        <xs:element ref="load" minOccurs="0" maxOccurs="40000"/>
+        <xs:element ref="merchandiseType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="load" type="xs:integer"/>
+
+  <xs:element name="merchandiseType" type="xs:string"/>
+
+</xs:schema>

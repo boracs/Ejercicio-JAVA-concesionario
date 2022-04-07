@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE concessionaire SYSTEM "concessionaire.dtd">
-<concessionaire>
+<concessionaire xmlns:xsi="http://www.w3.org/2001/XMLSchema" xsi:noNamespaceSchemaLocation="concessionaire.xsd">
     <cars>
       <car>
         <brand>Ford</brand>

@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `reto_grupo_7` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `reto_grupo_7` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `reto_grupo_7`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
@@ -31,7 +31,7 @@ CREATE TABLE `car` (
   PRIMARY KEY (`carRegistration`),
   UNIQUE KEY `idcar_UNIQUE` (`carRegistration`),
   CONSTRAINT `carRegistration FK` FOREIGN KEY (`carRegistration`) REFERENCES `vehicle` (`registration`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `car` (
 
 LOCK TABLES `car` WRITE;
 /*!40000 ALTER TABLE `car` DISABLE KEYS */;
-INSERT INTO `car` VALUES ('12345',2,120),('310ALP',2,0),('3333GT',2,120),('3434GTR',2,150),('4040FFF',2,50),('4040FGT',2,0),('M3E30BMW',2,180);
+INSERT INTO `car` VALUES ('12345',2,120),('310ALP',2,0),('3333GT',2,120),('3434GTR',2,150),('4040FFF',2,50),('4040FGT',2,0),('M3E30BMW',2,180),('MB300SLR',2,80);
 /*!40000 ALTER TABLE `car` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +58,7 @@ CREATE TABLE `history` (
   `date` date NOT NULL,
   PRIMARY KEY (`idhistory`),
   UNIQUE KEY `idhistory_UNIQUE` (`idhistory`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `history` (
 
 LOCK TABLES `history` WRITE;
 /*!40000 ALTER TABLE `history` DISABLE KEYS */;
-INSERT INTO `history` VALUES (21,'BOUGHT','ABCDEF','2022-04-06'),(22,'PAINTED','ABCDEF','2022-04-06'),(23,'SOLD','ABCDEF','2022-04-06');
+INSERT INTO `history` VALUES (21,'BOUGHT','ABCDEF','2022-04-06'),(22,'PAINTED','ABCDEF','2022-04-06'),(23,'SOLD','ABCDEF','2022-04-06'),(24,'BOUGHT','MB300SLR','2022-04-07');
 /*!40000 ALTER TABLE `history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ CREATE TABLE `series` (
   `year` int unsigned NOT NULL,
   PRIMARY KEY (`serieNum`),
   UNIQUE KEY `serieNum_UNIQUE` (`serieNum`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +94,7 @@ CREATE TABLE `series` (
 
 LOCK TABLES `series` WRITE;
 /*!40000 ALTER TABLE `series` DISABLE KEYS */;
-INSERT INTO `series` VALUES (4,'Nissan','Skyline R34',1999),(7,'Ford','GT40',1964),(8,'Renault','Alpine',1984),(10,'BMW','M3 E30',1986),(11,'Ferrari','F40',1987),(14,'Volkswagen','California',1950),(15,'Ford','Mustang Shelby GT500',1967),(25,'Volkswagen','California t2',1967);
+INSERT INTO `series` VALUES (4,'Nissan','Skyline R34',1999),(7,'Ford','GT40',1964),(8,'Renault','Alpine',1984),(10,'BMW','M3 E30',1986),(11,'Ferrari','F40',1987),(14,'Volkswagen','California',1950),(15,'Ford','Mustang Shelby GT500',1967),(25,'Volkswagen','California t2',1967),(38,'Mercedes Benz','300 SL Roadster',1963);
 /*!40000 ALTER TABLE `series` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +112,7 @@ CREATE TABLE `truck` (
   PRIMARY KEY (`truckRegistration`),
   UNIQUE KEY `idtruck_UNIQUE` (`truckRegistration`),
   CONSTRAINT `truckRegistration FK` FOREIGN KEY (`truckRegistration`) REFERENCES `vehicle` (`registration`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +144,7 @@ CREATE TABLE `vehicle` (
   UNIQUE KEY `id_vehicle_UNIQUE` (`registration`),
   KEY `serieNum FK_idx` (`serieNum`),
   CONSTRAINT `serieNum FK` FOREIGN KEY (`serieNum`) REFERENCES `series` (`serieNum`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,9 +153,10 @@ CREATE TABLE `vehicle` (
 
 LOCK TABLES `vehicle` WRITE;
 /*!40000 ALTER TABLE `vehicle` DISABLE KEYS */;
-INSERT INTO `vehicle` VALUES (15,'12345','12345678901234567','grey and blue',2,95000,1),(8,'310ALP','98765432101234567','red',2,45000,0),(15,'3333GT','12345678901234567','dark grey',2,150000,0),(4,'3434GTR','12345678901234567','blue',2,110000,0),(11,'4040FFF','98765432101234567','ferrari red',2,1500000,0),(7,'4040FGT','09876543211234567','red and blue',2,2000000,0),(10,'M3E30BMW','12345678901234567','white',5,75000,0),(25,'VW00CAL','lkgtrvg2678452gt9','orange',7,70000,1),(14,'VWT1950','lkgtrvg2678452gt9','pink',7,180000,1);
+INSERT INTO `vehicle` VALUES (15,'12345','12345678901234567','grey and blue',2,95000,1),(8,'310ALP','98765432101234567','red',2,45000,0),(15,'3333GT','12345678901234567','dark grey',2,150000,0),(4,'3434GTR','12345678901234567','blue',2,110000,0),(11,'4040FFF','98765432101234567','ferrari red',2,1500000,0),(7,'4040FGT','09876543211234567','red and blue',2,2000000,0),(10,'M3E30BMW','12345678901234567','white',5,75000,0),(38,'MB300SLR','863ghy479064rtujs','grey',2,1200000,0),(25,'VW00CAL','lkgtrvg2678452gt9','orange',7,70000,1),(14,'VWT1950','lkgtrvg2678452gt9','pink',7,180000,1);
 /*!40000 ALTER TABLE `vehicle` ENABLE KEYS */;
 UNLOCK TABLES;
+ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8mb4 ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -177,6 +178,8 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8 COLLATE utf8_general_ci ;
+ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8mb4 ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -200,6 +203,8 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8 COLLATE utf8_general_ci ;
+ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8mb4 ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -221,6 +226,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `reto_grupo_7` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -231,4 +237,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-07  8:42:22
+-- Dump completed on 2022-04-07 12:13:46
